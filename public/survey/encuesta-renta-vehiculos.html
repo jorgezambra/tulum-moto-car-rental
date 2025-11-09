@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuesta de Renta de Vehículos</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(to bottom, #f3f4f6, #ffffff);
+            color: #1f2937;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #1f2937;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+
+        .progress-container {
+            margin-bottom: 30px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #40e0d0;
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            color: #1f2937;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #40e0d0;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #374151;
+            font-size: 0.95rem;
+        }
+
+        .label-small {
+            font-size: 0.8rem;
+            color: #6b7280;
+            font-weight: 400;
+            margin-bottom: 4px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #40e0d0;
+            box-shadow: 0 0 0 3px rgba(64, 224, 208, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .checkbox-group,
+        .radio-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .checkbox-item,
+        .radio-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .checkbox-item input[type="checkbox"],
+        .radio-item input[type="radio"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 2px;
+            cursor: pointer;
+        }
+
+        .checkbox-item label,
+        .radio-item label {
+            margin: 0;
+            font-weight: 400;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .conditional-input {
+            margin-top: 10px;
+            margin-left: 30px;
+        }
+
+        .price-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .pricing-box {
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .pricing-box h3 {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: #1f2937;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            gap: 15px;
+        }
+
+        button {
+            padding: 14px 28px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: #40e0d0;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #30c9b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(64, 224, 208, 0.3);
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: #4b5563;
+        }
+
+        .btn-secondary:disabled {
+            background: #d1d5db;
+            cursor: not-allowed;
+            color: #9ca3af;
+        }
+
+        .summary {
+            background: #f9fafb;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+
+        .summary pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #1f2937;
+        }
+
+        .summary-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #6ee7b7;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .price-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Encuesta de Renta de Vehículos</h1>
+        <p class="subtitle">Por favor completa todas las secciones. Tus respuestas se guardan automáticamente.</p>
+
+        <div class="progress-container">
+            <div class="progress-info">
+                <span>Sección <span id="current-section">1</span> de <span id="total-sections">6</span></span>
+                <span><span id="progress-percent">0</span>%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+        </div>
+
+        <!-- Section 1: Inventario de Vehículos -->
+        <div class="section active" id="section-1">
+            <h2>Sección 1: Inventario de Vehículos</h2>
+
+            <div class="form-group">
+                <label>¿Cuántos scooters tienes actualmente disponibles para renta?</label>
+                <div class="form-group">
+                    <label class="label-small">Número total:</label>
+                    <input type="number" id="scooters-total" placeholder="0">
+                </div>
+                <div class="form-group">
+                    <label class="label-small">Tipos/modelos (por ejemplo, Honda Wave 125, Italika Vitalia 150, etc., y cuántos de cada uno):</label>
+                    <textarea id="scooters-types" rows="3" placeholder="Ejemplo: 3 Honda Wave 125, 2 Italika Vitalia 150..."></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>¿Cuántos ATVs tienes actualmente disponibles para renta?</label>
+                <div class="form-group">
+                    <label class="label-small">Número total:</label>
+                    <input type="number" id="atvs-total" placeholder="0">
+                </div>
+                <div class="form-group">
+                    <label class="label-small">Tipos/modelos (por ejemplo, quad básico, etc., y cuántos de cada uno):</label>
+                    <textarea id="atvs-types" rows="3" placeholder="Ejemplo: 2 quad básico, 1 quad deportivo..."></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>¿Cuántos autos o vehículos tienes actualmente disponibles para renta?</label>
+                <div class="form-group">
+                    <label class="label-small">Número total:</label>
+                    <input type="number" id="cars-total" placeholder="0">
+                </div>
+                <div class="form-group">
+                    <label class="label-small">Tipos/modelos (por ejemplo, sedan básico, SUV, etc., y cuántos de cada uno):</label>
+                    <textarea id="cars-types" rows="3" placeholder="Ejemplo: 1 sedan básico, 2 SUV..."></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>¿En qué condición están los vehículos? (Por ejemplo, nuevos, usados, necesitan mantenimiento frecuente)</label>
+                <textarea id="vehicle-condition" rows="3" placeholder="Describe la condición de tus vehículos..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>¿Ofreces add-ons o accesorios? (Por ejemplo, cascos, gasolina incluida, candados)</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="addon-helmets">
+                        <label for="addon-helmets">Cascos</label>
+                    </div>
+                    <div class="conditional-input" id="helmets-price" style="display: none;">
+                        <label class="label-small">Precio (MXN):</label>
+                        <input type="text" id="helmets-price-value" placeholder="Precio en MXN">
+                    </div>
+
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="addon-gas">
+                        <label for="addon-gas">Gasolina incluida</label>
+                    </div>
+                    <div class="conditional-input" id="gas-price" style="display: none;">
+                        <label class="label-small">Precio (MXN):</label>
+                        <input type="text" id="gas-price-value" placeholder="Precio en MXN">
+                    </div>
+
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="addon-locks">
+                        <label for="addon-locks">Candados</label>
+                    </div>
+                    <div class="conditional-input" id="locks-price" style="display: none;">
+                        <label class="label-small">Precio (MXN):</label>
+                        <input type="text" id="locks-price-value" placeholder="Precio en MXN">
+                    </div>
+
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="addon-gps">
+                        <label for="addon-gps">GPS u otros</label>
+                    </div>
+                    <div class="conditional-input" id="gps-details" style="display: none;">
+                        <label class="label-small">Detalles y precio:</label>
+                        <textarea id="gps-details-value" rows="2" placeholder="Detalles y precio"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>¿Ofreces seguros o protecciones adicionales?</label>
+                
+                <div class="pricing-box">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="insurance-damage">
+                        <label for="insurance-damage"><strong>Seguro contra daños</strong></label>
+                    </div>
+                    <div class="conditional-input" id="damage-details" style="display: none;">
+                        <label class="label-small">Precio (MXN):</label>
+                        <input type="text" id="damage-price" placeholder="Precio en MXN">
+                        <label class="label-small" style="margin-top: 10px;">¿Qué cubre?</label>
+                        <textarea id="damage-coverage" rows="2" placeholder="¿Qué cubre?"></textarea>
+                    </div>
+                </div>
+
+                <div class="pricing-box">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="insurance-theft">
+                        <label for="insurance-theft"><strong>Seguro contra robo</strong></label>
+                    </div>
+                    <div class="conditional-input" id="theft-details" style="display: none;">
+                        <label class="label-small">Precio (MXN):</label>
+                        <input type="text" id="theft-price" placeholder="Precio en MXN">
+                        <label class="label-small" style="margin-top: 10px;">¿Qué cubre?</label>
+                        <textarea id="theft-coverage" rows="2" placeholder="¿Qué cubre?"></textarea>
+                    </div>
+                </div>
+
+                <div class="pricing-box">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="insurance-accidents">
+                        <label for="insurance-accidents"><strong>Seguro para accidentes</strong></label>
+                    </div>
+                    <div class="conditional-input" id="accidents-details" style="display: none;">
+                        <label class="label-small">Precio (MXN):</label>
+                        <input type="text" id="accidents-price" placeholder="Precio en MXN">
+                        <label class="label-small" style="margin-top: 10px;">¿Qué cubre?</label>
+                        <textarea id="accidents-coverage" rows="2" placeholder="¿Qué cubre?"></textarea>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <label>¿Son obligatorios los seguros?</label>
+                    <div class="radio-group" style="margin-top: 10px;">
+                        <div class="radio-item">
+                            <input type="radio" name="insurance-mandatory" id="insurance-mandatory-yes" value="yes">
+                            <label for="insurance-mandatory-yes">Sí</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="insurance-mandatory" id="insurance-mandatory-no" value="no">
+                            <label for="insurance-mandatory-no">No</label>
+                        </div>
+                    </div>
+                    <label class="label-small" style="margin-top: 10px;">Explicación:</label>
+                    <textarea id="insurance-explanation" rows="2" placeholder="Explicación"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Gestión de Reservas y Operaciones -->
+        <div class="section" id="section-2">
+            <h2>Sección 2: Gestión de Reservas y Operaciones</h2>
+
+            <div class="form-group">
+                <label>¿Cómo manejas las reservas actualmente? (Marca todas las que apliquen)</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="booking-phone" value="Por teléfono">
+                        <label for="booking-phone">Por teléfono</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="booking-whatsapp" value="Por WhatsApp">
+                        <label for="booking-whatsapp">Por WhatsApp</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="booking-person" value="En persona (en la ubicación)">
+                        <label for="booking-person">En persona (en la ubicación)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="booking-online" value="Google Maps o otro sitio web">
+                        <label for="booking-online">Google Maps o otro sitio web</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="booking-other-check">
+                        <label for="booking-other-check">Otro:</label>
+                    </div>
+                    <div class="conditional-input" id="booking-other-input" style="display: none;">
+                        <input type="text" id="booking-other-value" placeholder="Especifica">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>¿Usas algún sistema o app para rastrear disponibilidad? (Por ejemplo, calendario manual, Excel, software)</label>
+                <input type="text" id="availability-system" placeholder="Ejemplo: Google Calendar, Excel...">
+            </div>
+
+            <div class="form-group">
+                <label>¿Cómo rastreas la disponibilidad de vehículos? (Por ejemplo, un calendario físico, Google Calendar, o manualmente). ¿Cuántas reservas manejas por día/semana?</label>
+                <textarea id="availability-tracking" rows="3" placeholder="Describe tu método de rastreo y volumen de reservas..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>¿Ofreces entrega de vehículos?</label>
+                <div class="radio-group" style="margin-top: 10px;">
+                    <div class="radio-item">
+                        <input type="radio" name="delivery" id="delivery-yes" value="yes">
+                        <label for="delivery-yes">Sí</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="delivery" id="delivery-no" value="no">
+                        <label for="delivery-no">No</label>
+                    </div>
+                </div>
+                <div class="conditional-input" id="delivery-details" style="display: none;">
+                    <label class="label-small" style="margin-top: 15px;">¿Qué áreas cubres? (Por ejemplo, dentro de Tulum, hoteles específicos)</label>
+                    <textarea id="delivery-areas" rows="2" placeholder="Especifica las áreas..."></textarea>
+                    <label class="label-small" style="margin-top: 15px;">¿Cobras extra por entrega?</label>
+                    <div class="radio-group" style="margin-top: 10px;">
+                        <div class="radio-item">
+                            <input type="radio" name="delivery-charge" id="delivery-charge-yes" value="yes">
+                            <label for="delivery-charge-yes">Sí</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" name="delivery-charge" id="delivery-charge-no" value="no">
+                            <label for="delivery-charge-no">No</label>
+                        </div>
+                    </div>
+                    <div class="conditional-input" id="delivery-charge-amount" style="display: none;">
+                        <label class="label-small" style="margin-top: 10px;">¿Cuánto? (MXN)</label>
+                        <input type="text" id="delivery-charge-value" placeholder="Monto en MXN">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>¿Cuáles son tus horarios de operación? (Por ejemplo, de 8 AM a 6 PM, todos los días). ¿Tienes días de descanso?</label>
+                <textarea id="operating-hours" rows="3" placeholder="Describe tus horarios..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>¿Tienes personal adicional? (Por ejemplo, empleados para entregas o mantenimiento). ¿Cuántos?</label>
+                <input type="text" id="staff" placeholder="Ejemplo: 2 empleados para entregas, 1 para mantenimiento...">
+            </div>
+
+            <div class="form-group">
+                <label>¿Cuáles son los requisitos para los clientes? (Por ejemplo, edad mínima, licencia de conducir, depósito de seguridad)</label>
+                <textarea id="customer-requirements" rows="3" placeholder="Lista los requisitos..."></textarea>
+            </div>
+        </div>
+
+        <!-- Section 3: Sistemas de Pago -->
+        <div class="section" id="section-3">
+            <h2>Sección 3: Sistemas de Pago</h2>
+
+            <div class="form-group">
+                <label>¿Qué métodos de pago aceptas actualmente? (Marca todos los que apliquen)</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="payment-cash" value="Efectivo">
+                        <label for="payment-cash">Efectivo</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="payment-card" value="Tarjeta">
+                        <label for="payment-card">Tarjeta</label>
+                    </div>
+                    <div class="conditional-input" id="payment-terminal" style="display: none;">
+                        <label class="label-small">¿Qué terminal usas? (Mercado Pago, etc.)</label>
+                        <input type="text" id="payment-terminal-value" placeholder="Ejemplo: Mercado Pago">
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="payment-transfer" value="Transferencia bancaria">
+                        <label for="payment-transfer">Transferencia bancaria</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="payment-other-check">
+                        <label for="payment-other-check">Otro:</label>
+                    </div>
+                    <div class="conditional-input" id="payment-other-input" style="display: none;">
+                        <input type="text" id="payment-other-value" placeholder="Especifica">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>¿Cobras en línea o solo en persona?</label>
+                <input type="text" id="online-payment" placeholder="Ejemplo: Solo en persona, También en línea...">
+            </div>
+
+            <div class="form-group">
+                <label>¿Usas algún sistema digital para pagos? (Por ejemplo, Mercado Pago, Stripe, app de banco). Si sí, ¿qué clave API o cuenta tienes? (No compartas contraseñas, solo detalles generales)</label>
+                <textarea id="digital-payment-system" rows="3" placeholder="Describe tu sistema de pagos digitales..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>¿Cobras depósitos o pagos anticipados? ¿Cómo manejas reembolsos o cancelaciones?</label>
+                <textarea id="deposits" rows="3" placeholder="Describe tu política de depósitos y cancelaciones..."></textarea>
+            </div>
+        </div>
+
+        <!-- Section 4: Precios y Estructura de Ingresos -->
+        <div class="section" id="section-4">
+            <h2>Sección 4: Precios y Estructura de Ingresos</h2>
+
+            <div class="form-group">
+                <label>¿Cuáles son tus precios estándar?</label>
+                
+                <div class="pricing-box">
+                    <h3>Scooters:</h3>
+                    <div class="price-grid">
+                        <div>
+                            <label class="label-small">Por hora (MXN):</label>
+                            <input type="text" id="price-scooters-hourly" placeholder="0">
+                        </div>
+                        <div>
+                            <label class="label-small">Por día (MXN):</label>
+                            <input type="text" id="price-scooters-daily" placeholder="0">
+                        </div>
+                        <div>
+                            <label class="label-small">Por semana (MXN):</label>
+                            <input type="text" id="price-scooters-weekly" placeholder="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pricing-box">
+                    <h3>ATVs:</h3>
+                    <div class="price-grid">
+                        <div>
+                            <label class="label-small">Por hora (MXN):</label>
+                            <input type="text" id="price-atvs-hourly" placeholder="0">
+                        </div>
+                        <div>
+                            <label class="label-small">Por día (MXN):</label>
+                            <input type="text" id="price-atvs-daily" placeholder="0">
+                        </div>
+                        <div>
+                            <label class="label-small">Por semana (MXN):</label>
+                            <input type="text" id="price-atvs-weekly" placeholder="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pricing-box">
+                    <h3>Autos:</h3>
+                    <div class="price-grid">
+                        <div>
+                            <label class="label-small">Por hora (MXN):</label>
+                            <input type="text" id="price-cars-hourly" placeholder="0">
+                        </div>
+                        <div>
+                            <label class="label-small">Por día (MXN):</label>
+                            <input type="text" id="price-cars-daily" placeholder="0">
+                        </div>
+                        <div>
+                            <label class="label-small">Por semana (MXN):</label>
+                            <input type="text" id="price-cars-weekly" placeholder="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <label>¿Tienes descuentos o paquetes? (Por ejemplo, para grupos o largos periodos)</label>
+                    <textarea id="discounts" rows="3" placeholder="Describe tus descuentos y paquetes..."></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>¿Cómo varían los precios por temporada? (Por ejemplo, más alto en vacaciones)</label>
+                <textarea id="seasonal-pricing" rows="3" placeholder="Describe la variación de precios por temporada..."></textarea>
+            </div>
+        </div>
+
+        <!-- Section 5: Marketing y Clientes -->
+        <div class="section" id="section-5">
+            <h2>Sección 5: Marketing y Clientes</h2>
+
+            <div class="form-group">
+                <label>¿Cómo atraes clientes actualmente? (Marca todos los que apliquen)</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="marketing-wordofmouth" value="Boca en boca">
+                        <label for="marketing-wordofmouth">Boca en boca</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="marketing-google" value="Google Maps o reseñas">
+                        <label for="marketing-google">Google Maps o reseñas</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="marketing-social">
+                        <label for="marketing-social">Redes sociales:</label>
+                    </div>
+                    <div class="conditional-input" id="social-media-input" style="display: none;">
+                        <input type="text" id="social-media-value" placeholder="¿Cuáles?">
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="marketing-ads" value="Anuncios (por ejemplo, Facebook Ads, carteles)">
+                        <label for="marketing-ads">Anuncios (por ejemplo, Facebook Ads, carteles)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="marketing-other-check">
+                        <label for="marketing-other-check">Otro:</label>
+                    </div>
+                    <div class="conditional-input" id="marketing-other-input" style="display: none;">
+                        <input type="text" id="marketing-other-value" placeholder="Especifica">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>¿Cuántos clientes tienes por mes aproximadamente? ¿Qué porcentaje son turistas internacionales?</label>
+                <div class="price-grid">
+                    <div>
+                        <label class="label-small">Clientes por mes:</label>
+                        <input type="text" id="monthly-clients" placeholder="Ejemplo: 50-100">
+                    </div>
+                    <div>
+                        <label class="label-small">Porcentaje turistas internacionales:</label>
+                        <input type="text" id="international-clients" placeholder="Ejemplo: 60%">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>¿Recopilas emails o datos de clientes para marketing? (Por ejemplo, para enviar ofertas). ¿Cómo?</label>
+                <textarea id="customer-data" rows="3" placeholder="Describe cómo recopilas datos de clientes..."></textarea>
+            </div>
+        </div>
+
+        <!-- Section 6: Desafíos y Mejoras -->
+        <div class="section" id="section-6">
+            <h2>Sección 6: Desafíos y Mejoras</h2>
+
+            <div class="form-group">
+                <label>¿Cuáles son los mayores desafíos en tu negocio? (Por ejemplo, competencia, mantenimiento, bajas temporadas, pagos)</label>
+                <textarea id="challenges" rows="5" placeholder="Describe los desafíos que enfrentas..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>¿Qué te gustaría mejorar? (Por ejemplo, más reservas en línea, pagos digitales, visibilidad en búsquedas, etc.)</label>
+                <textarea id="improvements" rows="5" placeholder="Describe lo que te gustaría mejorar..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>¿Tienes fotos reales de tus vehículos, ubicación o clientes? Si sí, ¿puedes enviarlas? (No las adjuntes aquí, pero confirma)</label>
+                <div class="radio-group" style="margin-top: 10px;">
+                    <div class="radio-item">
+                        <input type="radio" name="has-photos" id="has-photos-yes" value="yes">
+                        <label for="has-photos-yes">Sí</label>
+                    </div>
+                    <div class="radio-item">
+                        <input type="radio" name="has-photos" id="has-photos-no" value="no">
+                        <label for="has-photos-no">No</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>¡Gracias por completar esta encuesta! Si tienes comentarios adicionales, escríbelos aquí:</label>
+                <textarea id="additional-comments" rows="5" placeholder="Comentarios adicionales..."></textarea>
+            </div>
+        </div>
+
+        <!-- Summary Section -->
+        <div class="section" id="section-summary" style="display: none;">
+            <h2>Resumen de Respuestas</h2>
+            <div class="alert">
+                <strong>¡Encuesta completada!</strong> Tus respuestas están listas para copiar o descargar.
+            </div>
+            <div class="summary">
+                <pre id="summary-text"></pre>
+            </div>
+            <div class="summary-buttons">
+                <button class="btn-primary" onclick="copySummary()">Copiar Respuestas</button>
+                <button class="btn-primary" onclick="downloadSummary()">Descargar como TXT</button>
+                <button class="btn-primary" id="share-button" onclick="shareSummary()" style="display: none;">Compartir</button>
+                <button class="btn-secondary" onclick="editSurvey()">Editar Encuesta</button>
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="nav-buttons" id="nav-buttons">
+            <button class="btn-secondary" id="btn-previous" onclick="previousSection()" disabled>Anterior</button>
+            <button class="btn-primary" id="btn-next" onclick="nextSection()">Siguiente</button>
+        </div>
+    </div>
+
+    <script>
+        let currentSection = 1;
+        const totalSections = 6;
+
+        // Load saved data from localStorage
+        function loadData() {
+            const saved = localStorage.getItem('survey-data');
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    Object.keys(data).forEach(key => {
+                        const element = document.getElementById(key);
+                        if (element) {
+                            if (element.type === 'checkbox' || element.type === 'radio') {
+                                element.checked = data[key];
+                            } else {
+                                element.value = data[key];
+                            }
+                        }
+                    });
+                } catch (e) {
+                    console.error('Error loading saved data:', e);
+                }
+            }
+        }
+
+        // Save data to localStorage
+        function saveData() {
+            const data = {};
+            const inputs = document.querySelectorAll('input, textarea, select');
+            inputs.forEach(input => {
+                if (input.id && input.id !== 'btn-previous' && input.id !== 'btn-next') {
+                    if (input.type === 'checkbox' || input.type === 'radio') {
+                        data[input.id] = input.checked;
+                    } else {
+                        data[input.id] = input.value;
+                    }
+                }
+            });
+            localStorage.setItem('survey-data', JSON.stringify(data));
+        }
+
+        // Auto-save on input change
+        document.addEventListener('input', saveData);
+        document.addEventListener('change', saveData);
+
+        // Show/hide conditional inputs
+        function setupConditionalInputs() {
+            // Add-ons
+            document.getElementById('addon-helmets').addEventListener('change', function() {
+                document.getElementById('helmets-price').style.display = this.checked ? 'block' : 'none';
+            });
+            document.getElementById('addon-gas').addEventListener('change', function() {
+                document.getElementById('gas-price').style.display = this.checked ? 'block' : 'none';
+            });
+            document.getElementById('addon-locks').addEventListener('change', function() {
+                document.getElementById('locks-price').style.display = this.checked ? 'block' : 'none';
+            });
+            document.getElementById('addon-gps').addEventListener('change', function() {
+                document.getElementById('gps-details').style.display = this.checked ? 'block' : 'none';
+            });
+
+            // Insurance
+            document.getElementById('insurance-damage').addEventListener('change', function() {
+                document.getElementById('damage-details').style.display = this.checked ? 'block' : 'none';
+            });
+            document.getElementById('insurance-theft').addEventListener('change', function() {
+                document.getElementById('theft-details').style.display = this.checked ? 'block' : 'none';
+            });
+            document.getElementById('insurance-accidents').addEventListener('change', function() {
+                document.getElementById('accidents-details').style.display = this.checked ? 'block' : 'none';
+            });
+
+            // Booking methods
+            document.getElementById('booking-other-check').addEventListener('change', function() {
+                document.getElementById('booking-other-input').style.display = this.checked ? 'block' : 'none';
+            });
+
+            // Delivery
+            document.querySelectorAll('input[name="delivery"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    document.getElementById('delivery-details').style.display = this.value === 'yes' ? 'block' : 'none';
+                });
+            });
+            document.querySelectorAll('input[name="delivery-charge"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    document.getElementById('delivery-charge-amount').style.display = this.value === 'yes' ? 'block' : 'none';
+                });
+            });
+
+            // Payment methods
+            document.getElementById('payment-card').addEventListener('change', function() {
+                document.getElementById('payment-terminal').style.display = this.checked ? 'block' : 'none';
+            });
+            document.getElementById('payment-other-check').addEventListener('change', function() {
+                document.getElementById('payment-other-input').style.display = this.checked ? 'block' : 'none';
+            });
+
+            // Marketing
+            document.getElementById('marketing-social').addEventListener('change', function() {
+                document.getElementById('social-media-input').style.display = this.checked ? 'block' : 'none';
+            });
+            document.getElementById('marketing-other-check').addEventListener('change', function() {
+                document.getElementById('marketing-other-input').style.display = this.checked ? 'block' : 'none';
+            });
+        }
+
+        function showSection(n) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+                section.style.display = 'none';
+            });
+
+            if (n === 'summary') {
+                document.getElementById('section-summary').style.display = 'block';
+                document.getElementById('nav-buttons').style.display = 'none';
+                generateSummary();
+            } else {
+                const section = document.getElementById(`section-${n}`);
+                if (section) {
+                    section.style.display = 'block';
+                    section.classList.add('active');
+                }
+                document.getElementById('nav-buttons').style.display = 'flex';
+                updateProgress();
+            }
+        }
+
+        function updateProgress() {
+            const percent = Math.round((currentSection / totalSections) * 100);
+            document.getElementById('current-section').textContent = currentSection;
+            document.getElementById('progress-percent').textContent = percent;
+            document.getElementById('progress-fill').style.width = percent + '%';
+            
+            document.getElementById('btn-previous').disabled = currentSection === 1;
+            document.getElementById('btn-next').textContent = currentSection === totalSections ? 'Ver Resumen' : 'Siguiente';
+        }
+
+        function nextSection() {
+            if (currentSection < totalSections) {
+                currentSection++;
+                showSection(currentSection);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            } else {
+                showSection('summary');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function previousSection() {
+            if (currentSection > 1) {
+                currentSection--;
+                showSection(currentSection);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function getValue(id) {
+            const el = document.getElementById(id);
+            if (!el) return '';
+            if (el.type === 'checkbox') return el.checked ? 'Sí' : 'No';
+            if (el.type === 'radio') return el.checked ? el.value : '';
+            return el.value || '';
+        }
+
+        function getCheckboxValues(prefix) {
+            const checkboxes = document.querySelectorAll(`input[type="checkbox"][id^="${prefix}"]`);
+            const values = [];
+            checkboxes.forEach(cb => {
+                if (cb.checked && cb.value) {
+                    values.push(cb.value);
+                }
+            });
+            return values.join(', ');
+        }
+
+        function generateSummary() {
+            let summary = 'ENCUESTA DE RENTA DE VEHÍCULOS\n';
+            summary += '=====================================\n\n';
+
+            // Section 1
+            summary += 'SECCIÓN 1: INVENTARIO DE VEHÍCULOS\n';
+            summary += `Scooters total: ${getValue('scooters-total')}\n`;
+            summary += `Tipos de scooters: ${getValue('scooters-types')}\n`;
+            summary += `ATVs total: ${getValue('atvs-total')}\n`;
+            summary += `Tipos de ATVs: ${getValue('atvs-types')}\n`;
+            summary += `Autos total: ${getValue('cars-total')}\n`;
+            summary += `Tipos de autos: ${getValue('cars-types')}\n`;
+            summary += `Condición de vehículos: ${getValue('vehicle-condition')}\n\n`;
+
+            summary += 'Add-ons:\n';
+            if (document.getElementById('addon-helmets').checked) {
+                summary += `- Cascos: Sí, Precio: ${getValue('helmets-price-value')} MXN\n`;
+            }
+            if (document.getElementById('addon-gas').checked) {
+                summary += `- Gasolina incluida: Sí, Precio: ${getValue('gas-price-value')} MXN\n`;
+            }
+            if (document.getElementById('addon-locks').checked) {
+                summary += `- Candados: Sí, Precio: ${getValue('locks-price-value')} MXN\n`;
+            }
+            if (document.getElementById('addon-gps').checked) {
+                summary += `- GPS: Sí, Detalles: ${getValue('gps-details-value')}\n`;
+            }
+            summary += '\n';
+
+            summary += 'Seguros:\n';
+            if (document.getElementById('insurance-damage').checked) {
+                summary += `- Seguro contra daños: Sí, Precio: ${getValue('damage-price')} MXN, Cobertura: ${getValue('damage-coverage')}\n`;
+            }
+            if (document.getElementById('insurance-theft').checked) {
+                summary += `- Seguro contra robo: Sí, Precio: ${getValue('theft-price')} MXN, Cobertura: ${getValue('theft-coverage')}\n`;
+            }
+            if (document.getElementById('insurance-accidents').checked) {
+                summary += `- Seguro para accidentes: Sí, Precio: ${getValue('accidents-price')} MXN, Cobertura: ${getValue('accidents-coverage')}\n`;
+            }
+            const mandatory = document.querySelector('input[name="insurance-mandatory"]:checked');
+            summary += `Seguros obligatorios: ${mandatory ? (mandatory.value === 'yes' ? 'Sí' : 'No') : 'No especificado'}\n`;
+            summary += `Explicación: ${getValue('insurance-explanation')}\n\n`;
+
+            // Section 2
+            summary += 'SECCIÓN 2: GESTIÓN DE RESERVAS Y OPERACIONES\n';
+            const bookingMethods = [];
+            ['booking-phone', 'booking-whatsapp', 'booking-person', 'booking-online'].forEach(id => {
+                if (document.getElementById(id).checked) {
+                    bookingMethods.push(document.getElementById(id).value);
+                }
+            });
+            if (document.getElementById('booking-other-check').checked) {
+                bookingMethods.push(getValue('booking-other-value'));
+            }
+            summary += `Métodos de reserva: ${bookingMethods.join(', ')}\n`;
+            summary += `Sistema de disponibilidad: ${getValue('availability-system')}\n`;
+            summary += `Rastreo de disponibilidad: ${getValue('availability-tracking')}\n`;
+            const delivery = document.querySelector('input[name="delivery"]:checked');
+            summary += `Entrega de vehículos: ${delivery ? (delivery.value === 'yes' ? 'Sí' : 'No') : 'No especificado'}\n`;
+            if (delivery && delivery.value === 'yes') {
+                summary += `Áreas cubiertas: ${getValue('delivery-areas')}\n`;
+                const charge = document.querySelector('input[name="delivery-charge"]:checked');
+                summary += `Cargo extra por entrega: ${charge ? (charge.value === 'yes' ? 'Sí' : 'No') : 'No especificado'}\n`;
+                if (charge && charge.value === 'yes') {
+                    summary += `Monto: ${getValue('delivery-charge-value')} MXN\n`;
+                }
+            }
+            summary += `Horarios de operación: ${getValue('operating-hours')}\n`;
+            summary += `Personal adicional: ${getValue('staff')}\n`;
+            summary += `Requisitos para clientes: ${getValue('customer-requirements')}\n\n`;
+
+            // Section 3
+            summary += 'SECCIÓN 3: SISTEMAS DE PAGO\n';
+            const paymentMethods = [];
+            ['payment-cash', 'payment-card', 'payment-transfer'].forEach(id => {
+                if (document.getElementById(id).checked) {
+                    paymentMethods.push(document.getElementById(id).value);
+                }
+            });
+            if (document.getElementById('payment-other-check').checked) {
+                paymentMethods.push(getValue('payment-other-value'));
+            }
+            summary += `Métodos de pago: ${paymentMethods.join(', ')}\n`;
+            if (document.getElementById('payment-card').checked) {
+                summary += `Terminal de tarjeta: ${getValue('payment-terminal-value')}\n`;
+            }
+            summary += `Pago en línea: ${getValue('online-payment')}\n`;
+            summary += `Sistema digital de pagos: ${getValue('digital-payment-system')}\n`;
+            summary += `Depósitos y reembolsos: ${getValue('deposits')}\n\n`;
+
+            // Section 4
+            summary += 'SECCIÓN 4: PRECIOS Y ESTRUCTURA DE INGRESOS\n';
+            summary += 'Precios Scooters:\n';
+            summary += `  Por hora: ${getValue('price-scooters-hourly')} MXN\n`;
+            summary += `  Por día: ${getValue('price-scooters-daily')} MXN\n`;
+            summary += `  Por semana: ${getValue('price-scooters-weekly')} MXN\n`;
+            summary += 'Precios ATVs:\n';
+            summary += `  Por hora: ${getValue('price-atvs-hourly')} MXN\n`;
+            summary += `  Por día: ${getValue('price-atvs-daily')} MXN\n`;
+            summary += `  Por semana: ${getValue('price-atvs-weekly')} MXN\n`;
+            summary += 'Precios Autos:\n';
+            summary += `  Por hora: ${getValue('price-cars-hourly')} MXN\n`;
+            summary += `  Por día: ${getValue('price-cars-daily')} MXN\n`;
+            summary += `  Por semana: ${getValue('price-cars-weekly')} MXN\n`;
+            summary += `Descuentos/paquetes: ${getValue('discounts')}\n`;
+            summary += `Variación por temporada: ${getValue('seasonal-pricing')}\n\n`;
+
+            // Section 5
+            summary += 'SECCIÓN 5: MARKETING Y CLIENTES\n';
+            const marketingChannels = [];
+            ['marketing-wordofmouth', 'marketing-google', 'marketing-ads'].forEach(id => {
+                if (document.getElementById(id).checked) {
+                    marketingChannels.push(document.getElementById(id).value);
+                }
+            });
+            if (document.getElementById('marketing-social').checked) {
+                marketingChannels.push(`Redes sociales: ${getValue('social-media-value')}`);
+            }
+            if (document.getElementById('marketing-other-check').checked) {
+                marketingChannels.push(getValue('marketing-other-value'));
+            }
+            summary += `Canales de marketing: ${marketingChannels.join(', ')}\n`;
+            summary += `Clientes por mes: ${getValue('monthly-clients')}\n`;
+            summary += `Porcentaje de turistas internacionales: ${getValue('international-clients')}\n`;
+            summary += `Recopilación de datos: ${getValue('customer-data')}\n\n`;
+
+            // Section 6
+            summary += 'SECCIÓN 6: DESAFÍOS Y MEJORAS\n';
+            summary += `Desafíos: ${getValue('challenges')}\n`;
+            summary += `Mejoras deseadas: ${getValue('improvements')}\n`;
+            const hasPhotos = document.querySelector('input[name="has-photos"]:checked');
+            summary += `Tiene fotos: ${hasPhotos ? (hasPhotos.value === 'yes' ? 'Sí' : 'No') : 'No especificado'}\n`;
+            summary += `Comentarios adicionales: ${getValue('additional-comments')}\n`;
+
+            document.getElementById('summary-text').textContent = summary;
+        }
+
+        function copySummary() {
+            const summaryText = document.getElementById('summary-text').textContent;
+            navigator.clipboard.writeText(summaryText).then(() => {
+                alert('¡Respuestas copiadas al portapapeles!');
+            }).catch(() => {
+                // Fallback for older browsers
+                const textarea = document.createElement('textarea');
+                textarea.value = summaryText;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                alert('¡Respuestas copiadas al portapapeles!');
+            });
+        }
+
+        function downloadSummary() {
+            const summaryText = document.getElementById('summary-text').textContent;
+            
+            // Try multiple methods for better mobile compatibility
+            try {
+                // Method 1: Blob download (works on most modern browsers)
+                if (navigator.userAgent.match(/Mobile|Android|iPhone|iPad/i)) {
+                    // For mobile, use data URI which is more reliable
+                    const dataUri = 'data:text/plain;charset=utf-8,' + encodeURIComponent(summaryText);
+                    const link = document.createElement('a');
+                    link.href = dataUri;
+                    link.download = 'encuesta-respuestas.txt';
+                    link.style.display = 'none';
+                    document.body.appendChild(link);
+                    
+                    // Trigger download
+                    if (document.createEvent) {
+                        const event = document.createEvent('MouseEvents');
+                        event.initEvent('click', true, true);
+                        link.dispatchEvent(event);
+                    } else {
+                        link.click();
+                    }
+                    
+                    // Clean up after a delay
+                    setTimeout(() => {
+                        document.body.removeChild(link);
+                        alert('¡Descarga iniciada! Si no funciona, usa el botón "Copiar Respuestas" y pégalas en una nota o mensaje.');
+                    }, 100);
+                } else {
+                    // Desktop method
+                    const blob = new Blob([summaryText], { type: 'text/plain;charset=utf-8' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'encuesta-respuestas.txt';
+                    a.style.display = 'none';
+                    document.body.appendChild(a);
+                    a.click();
+                    setTimeout(() => {
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                    }, 100);
+                }
+            } catch (e) {
+                // Fallback: Open in new window/tab for user to save manually
+                console.error('Download error:', e);
+                const newWindow = window.open();
+                if (newWindow) {
+                    newWindow.document.write('<pre style="white-space: pre-wrap; padding: 20px;">' + summaryText.replace(/\n/g, '<br>') + '</pre>');
+                    newWindow.document.close();
+                    alert('Se abrió en una nueva ventana. Usa el menú del navegador para guardar la página o copiar el texto.');
+                } else {
+                    alert('No se pudo descargar. Por favor, usa el botón "Copiar Respuestas" y pégalo en una nota o mensaje de texto.');
+                }
+            }
+        }
+
+        function shareSummary() {
+            const summaryText = document.getElementById('summary-text').textContent;
+            
+            // Use Web Share API if available (mobile browsers)
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Encuesta de Renta de Vehículos - Respuestas',
+                    text: summaryText,
+                }).then(() => {
+                    console.log('Shared successfully');
+                }).catch((error) => {
+                    console.error('Error sharing:', error);
+                    // Fallback to copy
+                    copySummary();
+                });
+            } else {
+                // Fallback to copy if share API not available
+                copySummary();
+            }
+        }
+
+        function editSurvey() {
+            currentSection = 1;
+            showSection(currentSection);
+        }
+
+        // Show share button on mobile devices
+        function checkMobileShare() {
+            if (navigator.share) {
+                document.getElementById('share-button').style.display = 'inline-block';
+            }
+        }
+
+        // Initialize
+        loadData();
+        setupConditionalInputs();
+        updateProgress();
+        checkMobileShare();
+    </script>
+</body>
+</html>
+
