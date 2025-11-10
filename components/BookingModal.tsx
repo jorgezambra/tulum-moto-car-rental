@@ -112,7 +112,9 @@ export default function BookingModal({
                 {subtotal !== undefined && (
                   <div className="flex justify-between text-gray-600">
                     <span>{t('vehicle.booking.subtotal')}</span>
-                    <span>{formatPrice(subtotal)}</span>
+                    <span>
+                      {formatPrice(subtotal, { includeSuffix: false })}
+                    </span>
                   </div>
                 )}
                 {discount !== undefined && discount > 0 && (
@@ -120,18 +122,24 @@ export default function BookingModal({
                     <span>
                       {t('vehicle.booking.discount')} ({discountPercent}%)
                     </span>
-                    <span>-{formatPrice(discount)}</span>
+                    <span>
+                      -{formatPrice(discount, { includeSuffix: false })}
+                    </span>
                   </div>
                 )}
                 {deliveryEnabled && (
                   <div className="flex justify-between text-gray-600">
                     <span>{t('vehicle.booking.deliveryFee')}</span>
-                    <span>{formatPrice(100)}</span>
+                    <span>
+                      {formatPrice(100, { includeSuffix: false })}
+                    </span>
                   </div>
                 )}
                 <div className="flex justify-between text-lg font-bold text-turquoise pt-2 border-t border-gray-300">
                   <span>{t('vehicle.booking.total')}</span>
-                  <span>{formatPrice(total)}</span>
+                  <span>
+                    {formatPrice(total, { includeSuffix: false })}
+                  </span>
                 </div>
               </div>
             </div>

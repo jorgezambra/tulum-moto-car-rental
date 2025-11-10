@@ -4,12 +4,16 @@ import { createContext, useContext, useState, useEffect, useMemo, useCallback, R
 
 type Currency = 'MXN' | 'USD'
 
+interface FormatPriceOptions {
+  includeSuffix?: boolean
+}
+
 interface CurrencyContextType {
   currency: Currency
   setCurrency: (currency: Currency) => void
   exchangeRate: number
   convertPrice: (priceMXN: number) => number
-  formatPrice: (priceMXN: number) => string
+  formatPrice: (priceMXN: number, options?: FormatPriceOptions) => string
 }
 
 const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined)
@@ -59,11 +63,17 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
     return priceMXN
   }, [currency, exchangeRate])
 
-  const formatPrice = useCallback((priceMXN: number): string => {
+  const formatPrice = useCallback((priceMXN: number, options: FormatPriceOptions = {}): string => {
     const price = convertPrice(priceMXN)
-    return currency === 'USD'
-      ? `$${price.toFixed(2)} USD/day`
-      : `${Math.round(price)} MXN/day`
+    const includeSuffix = options.includeSuffix ?? true
+
+    if (currency === 'USD') {
+      const base = `$${price.toFixed(2)} USD`
+      return includeSuffix ? `${base}/day` : base
+    }
+
+    const base = `${Math.round(price)} MXN`
+    return includeSuffix ? `${base}/day` : base
   }, [currency, convertPrice])
 
   const value = useMemo(() => ({

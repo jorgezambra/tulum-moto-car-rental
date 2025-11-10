@@ -19,7 +19,6 @@ interface VehicleDetailClientProps {
 export default function VehicleDetailClient({
   vehicle,
 }: VehicleDetailClientProps) {
-  const [selectedImage, setSelectedImage] = useState(0)
   const [showBookingModal, setShowBookingModal] = useState(false)
   const [startDate, setStartDate] = useState<Date | null>(null)
   const [endDate, setEndDate] = useState<Date | null>(null)
@@ -87,6 +86,8 @@ export default function VehicleDetailClient({
     setShowBookingModal(true)
   }
 
+  const primaryImage = vehicle.images[0]
+
   return (
     <>
       <Header />
@@ -108,36 +109,18 @@ export default function VehicleDetailClient({
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
             {/* Image Gallery */}
             <div>
-              <div className="relative h-96 mb-4 rounded-lg overflow-hidden">
-                <Image
-                  src={vehicle.images[selectedImage]}
-                  alt={vehicle.name}
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              </div>
-              <div className="grid grid-cols-4 gap-2">
-                {vehicle.images.map((image, index) => (
-                  <motion.button
-                    key={index}
-                    onClick={() => setSelectedImage(index)}
-                    className={`relative h-20 rounded-lg overflow-hidden border-2 transition-all ${
-                      selectedImage === index
-                        ? 'border-turquoise'
-                        : 'border-transparent'
-                    }`}
-                    whileHover={{ scale: 1.05 }}
-                  >
-                    <Image
-                      src={image}
-                      alt={`${vehicle.name} view ${index + 1}`}
-                      fill
-                      className="object-cover"
-                    />
-                  </motion.button>
-                ))}
-              </div>
+              {primaryImage && (
+                <div className="relative h-96 rounded-lg overflow-hidden bg-white flex items-center justify-center">
+                  <Image
+                    src={primaryImage}
+                    alt={vehicle.name}
+                    fill
+                    className="object-contain p-4"
+                    sizes="(max-width: 1024px) 100vw, 600px"
+                    priority
+                  />
+                </div>
+              )}
             </div>
 
             {/* Vehicle Info */}
@@ -272,25 +255,40 @@ export default function VehicleDetailClient({
                         </div>
                         <div className="flex justify-between">
                           <span>{t('vehicle.booking.subtotal')}</span>
-                          <span>{formatPrice(bookingTotal.subtotal)}</span>
+                          <span>
+                            {formatPrice(bookingTotal.subtotal, {
+                              includeSuffix: false,
+                            })}
+                          </span>
                         </div>
                         {bookingTotal.discount > 0 && (
                           <div className="flex justify-between text-green-200">
                             <span>
                               {t('vehicle.booking.discount')} ({bookingTotal.discountPercent}%)
                             </span>
-                            <span>-{formatPrice(bookingTotal.discount)}</span>
+                            <span>
+                              -
+                              {formatPrice(bookingTotal.discount, {
+                                includeSuffix: false,
+                              })}
+                            </span>
                           </div>
                         )}
                         {deliveryEnabled && (
                           <div className="flex justify-between">
                             <span>{t('vehicle.booking.deliveryFee')}</span>
-                            <span>{formatPrice(100)}</span>
+                            <span>
+                              {formatPrice(100, { includeSuffix: false })}
+                            </span>
                           </div>
                         )}
                         <div className="border-t border-white/30 pt-1.5 flex justify-between text-base font-bold mt-2">
                           <span>{t('vehicle.booking.total')}</span>
-                          <span>{formatPrice(bookingTotal.total)}</span>
+                          <span>
+                            {formatPrice(bookingTotal.total, {
+                              includeSuffix: false,
+                            })}
+                          </span>
                         </div>
                       </div>
                       <button
