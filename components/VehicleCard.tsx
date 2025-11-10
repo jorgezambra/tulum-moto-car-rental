@@ -21,30 +21,32 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
     <motion.div
       whileHover={{ scale: 1.05, y: -5 }}
       transition={{ duration: 0.2 }}
-      className="bg-white rounded-lg shadow-lg overflow-hidden flex-shrink-0 w-[280px] sm:w-72"
+      className="bg-white rounded-lg shadow-lg overflow-hidden flex-shrink-0 w-[220px] sm:w-[240px] h-[320px] sm:h-[340px] flex flex-col"
     >
-      <div className="relative h-36 sm:h-44 w-full bg-gray-200 p-2 sm:p-3">
+      <div className="relative h-32 sm:h-36 w-full bg-white border-b border-gray-200 p-3 flex items-center justify-center">
         <Image
           src={vehicle.images[0]}
           alt={vehicle.name}
           fill
           className="object-contain"
-          sizes="(max-width: 640px) 280px, 288px"
+          sizes="(max-width: 640px) 220px, 240px"
         />
       </div>
-      <div className="p-4">
-        <h3 className="text-xl font-semibold text-gray-800 mb-2">
+      <div className="p-4 flex flex-col flex-1">
+        <h3 className="text-lg font-semibold text-gray-800 text-center">
           {vehicle.name}
         </h3>
-        <p className="text-2xl font-bold text-turquoise mb-4">
-          {formatted}
-        </p>
-        <Link
-          href={`/vehicle/${vehicle.id}`}
-          className="block w-full text-center bg-sunset-orange text-white py-2 px-4 rounded-lg hover:bg-opacity-90 transition-colors font-medium"
-        >
-          {t('vehicle.viewDetails')}
-        </Link>
+        <div className="mt-auto space-y-3">
+          <p className="text-xl font-bold text-turquoise text-center">
+            {formatted}
+          </p>
+          <Link
+            href={`/vehicle/${vehicle.id}`}
+            className="block w-full text-center bg-sunset-orange text-white py-2 px-4 rounded-lg hover:bg-opacity-90 transition-colors font-medium text-sm"
+          >
+            {t('vehicle.viewDetails')}
+          </Link>
+        </div>
       </div>
     </motion.div>
   )

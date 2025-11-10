@@ -24,24 +24,24 @@ export const getVehicleDescription = (vehicleId: string, language: 'en' | 'es'):
       es: 'Scooter elegante rosa claro con diseño retro clásico. Asiento de cuero marrón y detalles cromados. Perfecto para paseos tranquilos por Tulum.',
     },
     'car-1': {
-      en: 'Comfortable sedan perfect for families exploring Tulum.',
-      es: 'Sedán cómodo perfecto para familias que exploran Tulum.',
+      en: 'Compact silver sedan that is easy to park and great for quick city trips.',
+      es: 'Sedán plateado compacto, fácil de estacionar y perfecto para recorridos rápidos por la ciudad.',
     },
     'car-2': {
-      en: 'Spacious interior, great for road trips around the Yucatan.',
-      es: 'Interior espacioso, ideal para viajes por carretera alrededor de Yucatán.',
+      en: 'Rugged Jeep Wrangler with 4x4 capability for exploring beaches and jungle roads.',
+      es: 'Jeep Wrangler todoterreno con tracción 4x4 para explorar playas y caminos selváticos.',
     },
     'car-3': {
-      en: 'Fuel-efficient and reliable for daily adventures.',
-      es: 'Eficiente en combustible y confiable para aventuras diarias.',
+      en: 'Spacious Kia Sorento SUV with plenty of cargo space for family adventures.',
+      es: 'Amplia SUV Kia Sorento con mucho espacio de carga para aventuras en familia.',
     },
     'car-4': {
-      en: 'Modern features and smooth ride through Tulum streets.',
-      es: 'Características modernas y viaje suave por las calles de Tulum.',
+      en: 'Three-row crossover with van-like comfort, perfect for groups and transfers.',
+      es: 'Crossover de tres filas con comodidad tipo van, ideal para grupos y traslados.',
     },
     'car-5': {
-      en: 'Luxury features and premium comfort for your Tulum stay.',
-      es: 'Características de lujo y comodidad premium para tu estancia en Tulum.',
+      en: 'Premium sedan with elevated comfort and smooth highway cruising.',
+      es: 'Sedán premium con comodidad superior y manejo suave en carretera.',
     },
   }
 
@@ -118,9 +118,9 @@ export const vehicles: Vehicle[] = [
   // Cars
   {
     id: 'car-1',
-    name: 'Basic Sedan',
+    name: 'Silver Compact Sedan',
     type: 'car',
-    model: 'Basic Sedan 1',
+    model: 'Nissan Sentra',
     pricePerDay: 600,
     images: [
       '/images/vehicles/cars/Gemini_Generated_Image_g5ycjfg5ycjfg5yc.png',
@@ -128,13 +128,13 @@ export const vehicles: Vehicle[] = [
       '/images/vehicles/cars/Gemini_Generated_Image_g5ycjfg5ycjfg5yc.png',
       '/images/vehicles/cars/Gemini_Generated_Image_g5ycjfg5ycjfg5yc.png',
     ],
-    description: 'Comfortable sedan perfect for families exploring Tulum.',
+    description: 'Comfortable compact sedan perfect for city cruising and quick getaways around Tulum.',
   },
   {
     id: 'car-2',
-    name: 'Basic Sedan',
+    name: 'Jeep Wrangler 4x4',
     type: 'car',
-    model: 'Basic Sedan 2',
+    model: 'Jeep Wrangler Unlimited',
     pricePerDay: 700,
     images: [
       '/images/vehicles/cars/Gemini_Generated_Image_m4094pm4094pm409.png',
@@ -142,13 +142,13 @@ export const vehicles: Vehicle[] = [
       '/images/vehicles/cars/Gemini_Generated_Image_m4094pm4094pm409.png',
       '/images/vehicles/cars/Gemini_Generated_Image_m4094pm4094pm409.png',
     ],
-    description: 'Spacious interior, great for road trips around the Yucatan.',
+    description: 'Rugged 4x4 perfect for off-road adventures, beach runs, and exploring cenotes.',
   },
   {
     id: 'car-3',
-    name: 'Basic Sedan',
+    name: 'Kia Sorento SUV',
     type: 'car',
-    model: 'Basic Sedan 3',
+    model: 'Kia Sorento',
     pricePerDay: 800,
     images: [
       '/images/vehicles/cars/Gemini_Generated_Image_nmh646nmh646nmh6.png',
@@ -156,13 +156,13 @@ export const vehicles: Vehicle[] = [
       '/images/vehicles/cars/Gemini_Generated_Image_nmh646nmh646nmh6.png',
       '/images/vehicles/cars/Gemini_Generated_Image_nmh646nmh646nmh6.png',
     ],
-    description: 'Fuel-efficient and reliable for daily adventures.',
+    description: 'Spacious midsize SUV with room for the family and luggage for longer trips.',
   },
   {
     id: 'car-4',
-    name: 'Basic Sedan',
+    name: 'Family Adventure Van',
     type: 'car',
-    model: 'Basic Sedan 4',
+    model: 'Dodge Journey',
     pricePerDay: 900,
     images: [
       '/images/vehicles/cars/Gemini_Generated_Image_ywql5kywql5kywql.png',
@@ -170,13 +170,13 @@ export const vehicles: Vehicle[] = [
       '/images/vehicles/cars/Gemini_Generated_Image_ywql5kywql5kywql.png',
       '/images/vehicles/cars/Gemini_Generated_Image_ywql5kywql5kywql.png',
     ],
-    description: 'Modern features and smooth ride through Tulum streets.',
+    description: 'Three-row crossover with van-like space, ideal for groups and airport transfers.',
   },
   {
     id: 'car-5',
-    name: 'Basic Sedan',
+    name: 'Premium Sedan',
     type: 'car',
-    model: 'Basic Sedan 5',
+    model: 'Executive Sedan',
     pricePerDay: 1000,
     images: [
       '/images/vehicles/cars/Gemini_Generated_Image_g5ycjfg5ycjfg5yc.png',
@@ -184,7 +184,7 @@ export const vehicles: Vehicle[] = [
       '/images/vehicles/cars/Gemini_Generated_Image_g5ycjfg5ycjfg5yc.png',
       '/images/vehicles/cars/Gemini_Generated_Image_g5ycjfg5ycjfg5yc.png',
     ],
-    description: 'Luxury features and premium comfort for your Tulum stay.',
+    description: 'Luxury sedan with premium comfort features for elevated stays in Tulum.',
   },
 ]
 
