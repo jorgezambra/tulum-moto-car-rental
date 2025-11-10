@@ -21,7 +21,7 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
     <motion.div
       whileHover={{ scale: 1.05, y: -5 }}
       transition={{ duration: 0.2 }}
-      className="relative bg-white rounded-2xl shadow-[0_20px_40px_-18px_rgba(15,23,42,0.45)] after:absolute after:inset-x-6 after:-bottom-6 after:h-6 after:rounded-full after:bg-gradient-to-t after:from-slate-900/10 after:to-transparent after:content-[''] overflow-visible flex-shrink-0 w-[220px] sm:w-[240px] h-[320px] sm:h-[340px] flex flex-col"
+      className="relative bg-white rounded-2xl shadow-[0_35px_65px_-20px_rgba(15,23,42,0.6)] ring-1 ring-slate-900/5 after:absolute after:inset-x-5 after:-bottom-7 after:h-8 after:rounded-full after:bg-slate-900/15 after:blur-xl after:content-[''] after:-z-10 overflow-visible flex-shrink-0 w-[220px] sm:w-[240px] h-[320px] sm:h-[340px] flex flex-col"
     >
       <div className="relative h-32 sm:h-36 w-full bg-white border-b border-gray-200 p-3 flex items-center justify-center rounded-t-2xl overflow-hidden">
         <Image
