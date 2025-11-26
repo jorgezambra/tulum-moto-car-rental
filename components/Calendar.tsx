@@ -3,26 +3,38 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useLanguage } from '@/contexts/LanguageContext'
+import TimePicker from './TimePicker'
 
 interface CalendarProps {
   onDateSelect?: (startDate: Date | null, endDate: Date | null) => void
+  pickupTime?: string
+  dropoffTime?: string
+  onPickupTimeChange?: (time: string) => void
+  onDropoffTimeChange?: (time: string) => void
 }
 
-export default function Calendar({ onDateSelect }: CalendarProps) {
+export default function Calendar({ 
+  onDateSelect,
+  pickupTime = '10:00',
+  dropoffTime = '10:00',
+  onPickupTimeChange,
+  onDropoffTimeChange
+}: CalendarProps) {
   const today = new Date()
   const [selectedStart, setSelectedStart] = useState<Date | null>(null)
   const [selectedEnd, setSelectedEnd] = useState<Date | null>(null)
   const [currentMonth, setCurrentMonth] = useState(today.getMonth())
   const [currentYear, setCurrentYear] = useState(today.getFullYear())
 
-  // Generate fake availability - block random days
+  // Generate fake availability - only block a few specific days
   const isAvailable = (date: Date): boolean => {
-    // Block some random days (about 20% of dates)
+    // Only block a few specific days (much less than before)
     const dayOfYear = Math.floor(
       (date.getTime() - new Date(date.getFullYear(), 0, 0).getTime()) /
         86400000
     )
-    return dayOfYear % 5 !== 0 // Available if not divisible by 5
+    // Block only about 5% of dates (every 20th day)
+    return dayOfYear % 20 !== 0
   }
 
   const isDateInPast = (date: Date): boolean => {
@@ -125,14 +137,14 @@ export default function Calendar({ onDateSelect }: CalendarProps) {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-4 lg:p-6 w-full max-w-[400px] mx-auto">
-      <div className="flex items-center justify-between mb-4">
+    <div className="bg-white rounded-lg shadow-md p-3 lg:p-4 w-full max-w-[400px] mx-auto flex flex-col">
+      <div className="flex items-center justify-between mb-3">
         <button
           onClick={goToPreviousMonth}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
         >
           <svg
-            className="w-5 h-5"
+            className="w-4 h-4"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -150,10 +162,10 @@ export default function Calendar({ onDateSelect }: CalendarProps) {
         </h3>
         <button
           onClick={goToNextMonth}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+          className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
         >
           <svg
-            className="w-5 h-5"
+            className="w-4 h-4"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -168,15 +180,15 @@ export default function Calendar({ onDateSelect }: CalendarProps) {
         </button>
       </div>
 
-      <div className="grid grid-cols-7 gap-2 mb-2">
+      <div className="grid grid-cols-7 gap-1 mb-1.5">
         {dayNames.map((day) => (
-          <div key={day} className="text-center text-sm font-semibold text-gray-600">
+          <div key={day} className="text-center text-xs font-semibold text-gray-600">
             {day}
           </div>
         ))}
       </div>
 
-      <div className="grid grid-cols-7 gap-2">
+      <div className="grid grid-cols-7 gap-1">
         {days.map((date, index) => {
           if (!date) {
             return <div key={index} />
@@ -193,7 +205,7 @@ export default function Calendar({ onDateSelect }: CalendarProps) {
               onClick={() => handleDateClick(date)}
               disabled={!available || isPast}
               className={`
-                h-10 rounded-lg text-sm font-medium transition-colors
+                h-8 rounded-lg text-xs font-medium transition-colors
                 ${!available || isPast
                   ? 'bg-red-100 text-red-400 cursor-not-allowed'
                   : selected || inRange
@@ -201,7 +213,7 @@ export default function Calendar({ onDateSelect }: CalendarProps) {
                   : 'bg-gray-50 hover:bg-gray-100 text-gray-700'
                 }
               `}
-              whileHover={available && !isPast ? { scale: 1.1 } : {}}
+              whileHover={available && !isPast ? { scale: 1.05 } : {}}
             >
               {date.getDate()}
             </motion.button>
@@ -209,18 +221,30 @@ export default function Calendar({ onDateSelect }: CalendarProps) {
         })}
       </div>
 
-      <div className="mt-4 flex gap-4 justify-center">
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-green-200 rounded"></div>
-          <span className="text-sm text-gray-600">{t('vehicle.calendar.available')}</span>
+      <div className="mt-3 flex gap-3 justify-center">
+        <div className="flex items-center gap-1.5">
+          <div className="w-3 h-3 bg-red-100 rounded"></div>
+          <span className="text-xs text-gray-600">{t('vehicle.calendar.booked')}</span>
         </div>
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-red-100 rounded"></div>
-          <span className="text-sm text-gray-600">{t('vehicle.calendar.booked')}</span>
+        <div className="flex items-center gap-1.5">
+          <div className="w-3 h-3 bg-turquoise rounded"></div>
+          <span className="text-xs text-gray-600">{t('vehicle.calendar.selected')}</span>
         </div>
-        <div className="flex items-center gap-2">
-          <div className="w-4 h-4 bg-turquoise rounded"></div>
-          <span className="text-sm text-gray-600">{t('vehicle.calendar.selected')}</span>
+      </div>
+
+      {/* Time Selection */}
+      <div className="mt-4 pt-4 border-t border-gray-200">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <TimePicker
+            value={pickupTime}
+            onChange={(time) => onPickupTimeChange?.(time)}
+            label={t('vehicle.times.pickup')}
+          />
+          <TimePicker
+            value={dropoffTime}
+            onChange={(time) => onDropoffTimeChange?.(time)}
+            label={t('vehicle.times.dropoff')}
+          />
         </div>
       </div>
     </div>

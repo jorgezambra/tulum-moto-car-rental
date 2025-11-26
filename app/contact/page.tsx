@@ -40,7 +40,7 @@ export default function ContactPage() {
                 {t('contact.sendMessage')}
               </h2>
               {submitted ? (
-                <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg">
+                <div className="bg-gray-100 border border-gray-300 text-gray-700 px-4 py-3 rounded-lg">
                   Thank you! Your message has been sent. We'll get back to you
                   soon.
                 </div>

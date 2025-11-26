@@ -4,8 +4,8 @@
 
 :root {
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 255, 255, 255;
-  --background-end-rgb: 255, 255, 255;
+  --background-start-rgb: 243, 244, 246;
+  --background-end-rgb: 243, 244, 246;
 }
 
 * {
@@ -75,5 +75,25 @@ main {
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+}
+
+/* Time picker styling - on-brand turquoise */
+input[type="time"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+input[type="time"]:hover::-webkit-calendar-picker-indicator {
+  opacity: 1;
+}
+
+input[type="time"]:focus {
+  border-color: #1AA0A4;
+  box-shadow: 0 0 0 3px rgba(26, 160, 164, 0.1);
+}
+
+input[type="time"]:focus::-webkit-calendar-picker-indicator {
+  opacity: 1;
 }
 

@@ -104,7 +104,7 @@ export default function NewsletterPopup() {
                   />
                   <button
                     type="submit"
-                    className="w-full bg-sunset-orange hover:bg-opacity-90 text-white font-bold py-3 px-6 rounded-lg transition-colors"
+                    className="w-full bg-turquoise hover:bg-opacity-90 text-white font-bold py-3 px-6 rounded-lg transition-colors"
                   >
                     {t('newsletter.claim')}
                   </button>

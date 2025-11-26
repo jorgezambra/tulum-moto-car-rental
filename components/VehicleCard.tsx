@@ -21,32 +21,30 @@ export default function VehicleCard({ vehicle }: VehicleCardProps) {
     <motion.div
       whileHover={{ scale: 1.05, y: -5 }}
       transition={{ duration: 0.2 }}
-      className="relative bg-white rounded-2xl shadow-[0_35px_65px_-20px_rgba(15,23,42,0.6)] ring-1 ring-slate-900/5 after:absolute after:inset-x-5 after:-bottom-7 after:h-8 after:rounded-full after:bg-slate-900/15 after:blur-xl after:content-[''] after:-z-10 overflow-visible flex-shrink-0 w-[220px] sm:w-[240px] h-[320px] sm:h-[340px] flex flex-col"
+      className="relative bg-white rounded-2xl shadow-[0_8px_16px_-4px_rgba(0,0,0,0.4)] ring-1 ring-slate-900/5 overflow-hidden aspect-square flex flex-col"
     >
-      <div className="relative h-32 sm:h-36 w-full bg-white border-b border-gray-200 p-3 flex items-center justify-center rounded-t-2xl overflow-hidden">
+      <div className="relative flex-1 w-full bg-white border-b border-gray-200 p-4 sm:p-2 flex items-center justify-center rounded-t-2xl overflow-hidden">
         <Image
           src={vehicle.images[0]}
           alt={vehicle.name}
           fill
-          className="object-contain"
-          sizes="(max-width: 640px) 220px, 240px"
+          className="object-contain object-center"
+          sizes="(max-width: 640px) 200px, 220px"
         />
       </div>
-      <div className="p-4 flex flex-col flex-1">
-        <h3 className="text-lg font-semibold text-gray-800 text-center">
+      <div className="px-3 pt-2 pb-3 flex flex-col">
+        <h3 className="text-base font-semibold text-gray-800 text-center mb-1">
           {vehicle.name}
         </h3>
-        <div className="mt-auto space-y-3">
-          <p className="text-xl font-bold text-turquoise text-center">
-            {formatted}
-          </p>
-          <Link
-            href={`/vehicle/${vehicle.id}`}
-            className="block w-full text-center bg-sunset-orange text-white py-2 px-4 rounded-lg hover:bg-opacity-90 transition-colors font-medium text-sm"
-          >
-            {t('vehicle.viewDetails')}
-          </Link>
-        </div>
+        <p className="text-lg font-bold text-turquoise text-center mb-2">
+          {formatted}
+        </p>
+        <Link
+          href={`/vehicle/${vehicle.id}`}
+          className="block w-full text-center bg-black text-white py-1.5 px-3 rounded-xl hover:bg-gray-800 transition-colors font-medium text-xs"
+        >
+          {t('vehicle.viewDetails')}
+        </Link>
       </div>
     </motion.div>
   )

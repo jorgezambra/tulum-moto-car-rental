@@ -9,6 +9,7 @@ import { useLanguage } from '@/contexts/LanguageContext'
 export default function ScooterCarousel() {
   const scooters = getScooters()
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [isScrollable, setIsScrollable] = useState(false)
   const carouselRef = useRef<HTMLDivElement>(null)
   const { t } = useLanguage()
 
@@ -16,7 +17,7 @@ export default function ScooterCarousel() {
     if (carouselRef.current) {
       const firstCard = carouselRef.current.querySelector('.vehicle-card')
       if (firstCard) {
-        const cardWidth = firstCard.getBoundingClientRect().width + 16 // width + gap
+        const cardWidth = firstCard.getBoundingClientRect().width + 8 // width + gap
         carouselRef.current.scrollTo({
           left: index * cardWidth,
           behavior: 'smooth',
@@ -38,6 +39,17 @@ export default function ScooterCarousel() {
     }
   }
 
+  const updateScrollableState = () => {
+    const el = carouselRef.current
+    if (!el) return
+    const shouldScroll = el.scrollWidth - el.clientWidth > 4
+    setIsScrollable(shouldScroll)
+    if (!shouldScroll) {
+      setCurrentIndex(0)
+      el.scrollLeft = 0
+    }
+  }
+
   useEffect(() => {
     const carousel = carouselRef.current
     if (!carousel) return
@@ -45,7 +57,7 @@ export default function ScooterCarousel() {
     const handleScroll = () => {
       const firstCard = carousel.querySelector('.vehicle-card') as HTMLElement
       if (firstCard) {
-        const cardWidth = firstCard.getBoundingClientRect().width + 16
+        const cardWidth = firstCard.getBoundingClientRect().width + 8
         const index = Math.round(carousel.scrollLeft / cardWidth)
         setCurrentIndex(index)
       }
@@ -58,6 +70,7 @@ export default function ScooterCarousel() {
 
     carousel.addEventListener('scroll', handleScroll)
     window.addEventListener('resize', handleResize)
+    updateScrollableState()
     
     return () => {
       carousel.removeEventListener('scroll', handleScroll)
@@ -65,20 +78,24 @@ export default function ScooterCarousel() {
     }
   }, [])
 
+  useEffect(() => {
+    updateScrollableState()
+  }, [scooters.length])
+
   return (
     <div className="relative">
       <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
         {t('vehicles.scooters')}
       </h2>
       <div className="relative">
-        {currentIndex > 0 && (
+        {isScrollable && currentIndex > 0 && (
           <button
             onClick={prev}
-            className="hidden md:block absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors"
+            className="hidden md:block absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-turquoise text-white rounded-full p-2 shadow-lg hover:bg-reef-deep transition-colors"
             aria-label="Previous scooter"
           >
             <svg
-              className="w-6 h-6 text-gray-800"
+              className="w-6 h-6"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -94,7 +111,7 @@ export default function ScooterCarousel() {
         )}
         <div
           ref={carouselRef}
-          className="flex overflow-x-auto gap-4 scrollbar-hide scroll-smooth pb-4 px-2 sm:px-4 w-full"
+          className="flex overflow-x-auto gap-2 scrollbar-hide scroll-smooth pt-8 pb-0 sm:pb-16 px-6 sm:px-8 w-full"
           style={{ scrollSnapType: 'x mandatory' }}
         >
           {scooters.map((scooter, index) => (
@@ -111,14 +128,14 @@ export default function ScooterCarousel() {
             </motion.div>
           ))}
         </div>
-        {currentIndex < scooters.length - 1 && (
+        {isScrollable && currentIndex < scooters.length - 1 && (
           <button
             onClick={next}
-            className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition-colors"
+            className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-turquoise text-white rounded-full p-2 shadow-lg hover:bg-reef-deep transition-colors"
             aria-label="Next scooter"
           >
             <svg
-              className="w-6 h-6 text-gray-800"
+              className="w-6 h-6"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -133,18 +150,20 @@ export default function ScooterCarousel() {
           </button>
         )}
       </div>
-      <div className="flex justify-center gap-2 mt-4">
-        {scooters.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => scrollToIndex(index)}
-            className={`h-2 rounded-full transition-all ${
-              index === currentIndex ? 'w-8 bg-turquoise' : 'w-2 bg-gray-300'
-            }`}
-            aria-label={`Go to scooter ${index + 1}`}
-          />
-        ))}
-      </div>
+      {isScrollable && (
+        <div className="flex justify-center gap-2 mt-0 sm:mt-4">
+          {scooters.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => scrollToIndex(index)}
+              className={`h-2 rounded-full transition-all ${
+                index === currentIndex ? 'w-6 bg-turquoise' : 'w-2 bg-gray-300/70'
+              }`}
+              aria-label={`Go to scooter ${index + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </div>
   )
 }

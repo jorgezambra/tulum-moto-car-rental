@@ -20,12 +20,12 @@ export default function Header() {
   }
 
   return (
-    <header className="bg-white shadow-md fixed top-0 left-0 right-0 z-50 w-full">
-      <div className="w-full px-2 sm:px-3 lg:px-4 py-3 sm:py-4">
-        <div className="flex items-center w-full gap-2 lg:gap-3 relative">
+    <header className="fixed top-0 left-0 right-0 z-50 w-full bg-transparent">
+      <div className="w-full px-4 sm:px-6 lg:px-12 pt-6 lg:pt-10 pb-4">
+        <div className="flex items-center w-full gap-3 relative">
           <button
             onClick={toggleMenu}
-            className="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="lg:hidden p-2 rounded-full bg-white/90 text-turquoise border border-white/70 backdrop-blur transition"
             aria-label="Toggle menu"
           >
             {isMenuOpen ? (
@@ -60,37 +60,43 @@ export default function Header() {
           </button>
           <Link
             href="/"
-            className="text-xl sm:text-2xl font-bold text-turquoise whitespace-nowrap flex-1 text-center lg:flex-none lg:text-left"
+            className="text-4xl sm:text-[3rem] font-black text-white whitespace-nowrap flex-1 text-center lg:flex-none lg:text-left tracking-wide"
           >
             Tulum OnWheels
           </Link>
-          <nav className="hidden lg:flex items-center gap-5 xl:gap-6 ml-auto">
+          <nav className="hidden lg:flex items-center gap-3 xl:gap-4 ml-auto">
               <Link
                 href="/"
-                className="text-sm xl:text-base text-gray-700 hover:text-turquoise transition-colors whitespace-nowrap"
+                className="text-sm xl:text-base font-semibold text-black whitespace-nowrap px-4 py-1.5 rounded-full bg-turquoise transition hover:bg-reef-deep"
               >
                 {t('nav.home')}
               </Link>
               <Link
                 href="/#rentals"
-                className="text-sm xl:text-base text-gray-700 hover:text-turquoise transition-colors whitespace-nowrap"
+                className="text-sm xl:text-base font-semibold text-black whitespace-nowrap px-4 py-1.5 rounded-full bg-turquoise transition hover:bg-reef-deep"
               >
                 {t('nav.rentals')}
               </Link>
               <Link
+                href="/#reviews"
+                className="text-sm xl:text-base font-semibold text-black whitespace-nowrap px-4 py-1.5 rounded-full bg-turquoise transition hover:bg-reef-deep"
+              >
+                {t('nav.reviews')}
+              </Link>
+              <Link
                 href="/about"
-                className="text-sm xl:text-base text-gray-700 hover:text-turquoise transition-colors whitespace-nowrap"
+                className="text-sm xl:text-base font-semibold text-black whitespace-nowrap px-4 py-1.5 rounded-full bg-turquoise transition hover:bg-reef-deep"
               >
                 {t('nav.about')}
               </Link>
               <Link
                 href="/contact"
-                className="text-sm xl:text-base text-gray-700 hover:text-turquoise transition-colors whitespace-nowrap"
+                className="text-sm xl:text-base font-semibold text-black whitespace-nowrap px-4 py-1.5 rounded-full bg-turquoise transition hover:bg-reef-deep"
               >
                 {t('nav.contact')}
               </Link>
           </nav>
-          <div className="flex items-center gap-1 sm:gap-2 ml-2 lg:ml-3">
+          <div className="flex items-center gap-2 ml-2 lg:ml-4">
             <LanguageToggle />
             <CurrencyToggle />
           </div>
@@ -104,34 +110,41 @@ export default function Header() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
-              className="lg:hidden fixed left-3 top-[68px] z-[70]"
+              className="lg:hidden fixed left-4 sm:left-6 top-[76px] z-[70]"
             >
               <div className="inline-flex flex-col gap-2 border border-gray-200 rounded-lg bg-white shadow-xl px-4 py-3 w-max min-w-[200px]">
                 <Link
                   href="/"
                   onClick={closeMenu}
-                  className="text-base text-gray-700 hover:text-turquoise transition-colors py-1 whitespace-nowrap"
+                  className="text-base text-turquoise hover:text-reef-deep transition-colors py-1 whitespace-nowrap font-semibold"
                 >
                   {t('nav.home')}
                 </Link>
                 <Link
                   href="/#rentals"
                   onClick={closeMenu}
-                  className="text-base text-gray-700 hover:text-turquoise transition-colors py-1 whitespace-nowrap"
+                  className="text-base text-turquoise hover:text-reef-deep transition-colors py-1 whitespace-nowrap font-semibold"
                 >
                   {t('nav.rentals')}
                 </Link>
                 <Link
+                  href="/#reviews"
+                  onClick={closeMenu}
+                  className="text-base text-turquoise hover:text-reef-deep transition-colors py-1 whitespace-nowrap font-semibold"
+                >
+                  {t('nav.reviews')}
+                </Link>
+                <Link
                   href="/about"
                   onClick={closeMenu}
-                  className="text-base text-gray-700 hover:text-turquoise transition-colors py-1 whitespace-nowrap"
+                  className="text-base text-turquoise hover:text-reef-deep transition-colors py-1 whitespace-nowrap font-semibold"
                 >
                   {t('nav.about')}
                 </Link>
                 <Link
                   href="/contact"
                   onClick={closeMenu}
-                  className="text-base text-gray-700 hover:text-turquoise transition-colors py-1 whitespace-nowrap"
+                  className="text-base text-turquoise hover:text-reef-deep transition-colors py-1 whitespace-nowrap font-semibold"
                 >
                   {t('nav.contact')}
                 </Link>

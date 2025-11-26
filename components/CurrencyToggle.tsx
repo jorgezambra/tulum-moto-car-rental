@@ -12,16 +12,16 @@ export default function CurrencyToggle() {
   }, [currency, exchangeRate])
 
   return (
-    <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-0.5 sm:p-1">
+    <div className="flex items-center gap-0.5 bg-black rounded-lg p-0.5">
       <button
         onClick={() => {
           console.log('Setting currency to MXN')
           setCurrency('MXN')
         }}
-        className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-md text-xs sm:text-sm font-medium transition-colors ${
+        className={`px-1.5 py-0.5 rounded text-[10px] font-medium transition-colors ${
           currency === 'MXN'
-            ? 'bg-white text-gray-900 shadow-sm'
-            : 'text-gray-600 hover:text-gray-900'
+            ? 'bg-gray-800 text-white shadow-sm'
+            : 'text-white/70 hover:text-white'
         }`}
         aria-label="Switch to Mexican Pesos"
       >
@@ -32,10 +32,10 @@ export default function CurrencyToggle() {
           console.log('Setting currency to USD')
           setCurrency('USD')
         }}
-        className={`px-2 sm:px-3 py-0.5 sm:py-1 rounded-md text-xs sm:text-sm font-medium transition-colors ${
+        className={`px-1.5 py-0.5 rounded text-[10px] font-medium transition-colors ${
           currency === 'USD'
-            ? 'bg-white text-gray-900 shadow-sm'
-            : 'text-gray-600 hover:text-gray-900'
+            ? 'bg-gray-800 text-white shadow-sm'
+            : 'text-white/70 hover:text-white'
         }`}
         aria-label="Switch to US Dollars"
       >

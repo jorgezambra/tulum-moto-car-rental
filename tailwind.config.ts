@@ -10,8 +10,8 @@ const config: Config = {
     extend: {
       colors: {
         turquoise: '#40E0D0',
-        'sunset-orange': '#FF4500',
-        'palm-green': '#228B22',
+        'reef-deep': '#13b5b0',
+        'reef-ink': '#0b1f23',
       },
       fontFamily: {
         sans: ['Poppins', 'sans-serif'],
