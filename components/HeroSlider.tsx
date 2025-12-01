@@ -53,6 +53,7 @@ export default function HeroSlider() {
           {t('hero.subtitle')}
         </motion.p>
         <motion.div
+          className="hidden sm:block"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.6 }}
@@ -64,7 +65,7 @@ export default function HeroSlider() {
               const element = document.getElementById('rentals')
               element?.scrollIntoView({ behavior: 'smooth' })
             }}
-            className="bg-turquoise hover:bg-opacity-90 text-black font-bold py-3 px-6 sm:py-4 sm:px-8 rounded-lg text-base sm:text-lg transition-all transform hover:scale-105 shadow-lg"
+            className="inline-block bg-gradient-to-r from-turquoise to-reef-deep text-white font-extrabold py-4 px-10 rounded-full text-lg sm:text-xl shadow-[0_10px_20px_rgba(19,181,176,0.4)] hover:shadow-[0_15px_30px_rgba(19,181,176,0.6)] transform hover:-translate-y-1 transition-all duration-300 border-2 border-white/20 hover:border-white/40 backdrop-blur-sm"
           >
             {t('hero.cta')}
           </a>
@@ -103,7 +104,7 @@ export default function HeroSlider() {
                 <p className="text-xl font-bold">
                   {t('hero.discount.line1')}
                 </p>
-                <p className="text-sm text-gray-500">
+                <p className="text-xl font-bold">
                   {t('hero.discount.line2')}
                 </p>
               </div>

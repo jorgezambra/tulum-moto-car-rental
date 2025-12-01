@@ -22,7 +22,7 @@ const translations = {
     'nav.testimonials': 'Testimonials',
     'nav.terms': 'Terms',
     'nav.reviews': 'Reviews',
-    
+
     // Home Page
     'hero.title': 'Zip Through Tulum',
     'hero.subtitle': 'Rent Scooters & Cars Easily!',
@@ -35,7 +35,7 @@ const translations = {
     'vehicles.scooters': 'Scooters',
     'vehicles.cars': 'Cars',
     'vehicle.viewDetails': 'View Details',
-    
+
     // Testimonials
     'testimonials.title': 'What Our Customers Say',
     'testimonials.viewAll': 'View All Reviews',
@@ -43,7 +43,7 @@ const translations = {
     'testimonials.averageRating': 'Average Rating',
     'testimonials.totalReviews': 'Total Reviews',
     'testimonials.ratingBreakdown': 'Rating Breakdown',
-    
+
     // Vehicle Detail
     'vehicle.features': 'Features',
     'vehicle.insurance': 'Insurance',
@@ -72,7 +72,7 @@ const translations = {
     'vehicle.calendar.available': 'Available',
     'vehicle.calendar.booked': 'Booked',
     'vehicle.calendar.selected': 'Selected',
-    'vehicle.delivery.title': 'Delivery to Your Location',
+    'vehicle.delivery.title': 'Delivery to Location',
     'vehicle.delivery.description': 'We can deliver your rental directly to you. Additional fee may apply based on distance.',
     'vehicle.booking.summary': 'Booking Summary',
     'vehicle.booking.rentalPeriod': 'Rental Period:',
@@ -90,7 +90,7 @@ const translations = {
     'vehicle.booking.selectDates': 'Select your rental dates above to see pricing and book',
     'vehicle.quantity': 'Quantity',
     'vehicle.multiVehicleDiscount': 'discount for multiple vehicles',
-    
+
     // Booking Modal
     'booking.title': 'Complete Your Booking',
     'booking.details': 'Booking Details',
@@ -111,7 +111,7 @@ const translations = {
     'booking.verified': 'Verified Business',
     'booking.instant': 'Instant Confirmation',
     'booking.poweredBy': 'Powered by',
-    
+
     // Cart
     'cart.title': 'Your Cart',
     'cart.empty': 'Your cart is empty',
@@ -120,11 +120,11 @@ const translations = {
     'cart.added': 'Vehicle added to cart!',
     'cart.itemsAdded': 'vehicles added to cart!',
     'cart.items': 'Your Items',
-    
+
     // About Page
     'about.title': 'About Tulum OnWheels',
     'about.story': 'Our Story',
-    'about.storyDesc': 'Welcome to Tulum OnWheels, your premier destination for exploring the beautiful beaches and vibrant culture of Tulum, Mexico. Founded by passionate travelers who fell in love with Tulum\'s stunning coastline and rich Mayan heritage, we make adventure accessible with our carefully maintained fleet of scooters and cars. We pride ourselves on exceptional customer service, competitive prices, and a smooth rental experience.',
+    'about.storyDesc': 'Welcome to Tulum OnWheels, your premier destination for exploring the beautiful beaches and vibrant culture of Tulum, Mexico. We make adventure accessible with our carefully maintained fleet of scooters and cars.',
     'about.delivery': 'Delivery Service',
     'about.delivery1': 'Direct delivery to your hotel or Airbnb',
     'about.delivery2': '100-200 MXN depending on location',
@@ -147,7 +147,7 @@ const translations = {
     'about.safetyDesc': 'All vehicles are fully insured and regularly maintained for your safety and peace of mind.',
     'about.fast': 'Fast & Easy',
     'about.fastDesc': 'Quick booking process with instant confirmation. Get on the road in minutes, not hours.',
-    
+
     // Contact Page
     'contact.title': 'Contact Us',
     'contact.sendMessage': 'Send Us a Message',
@@ -159,7 +159,7 @@ const translations = {
     'contact.getInTouch': 'Get in Touch',
     'contact.address': 'Address',
     'contact.hours': 'Hours',
-    
+
     // Footer
     'footer.description': 'Your trusted partner for scooter and car rentals in Tulum.',
     'footer.quickLinks': 'Quick Links',
@@ -167,7 +167,7 @@ const translations = {
     'footer.hours': 'Operating Hours: 8AM - 6PM',
     'footer.location': 'Tulum, Mexico',
     'footer.rights': 'All rights reserved.',
-    
+
     // Terms
     'terms.title': 'Terms & Conditions',
     'terms.age': 'Age Requirements',
@@ -197,7 +197,7 @@ const translations = {
     'terms.changesDesc': 'We reserve the right to modify these terms and conditions at any time. Current terms apply to all active rentals.',
     'terms.agree': 'By booking a rental with Tulum OnWheels, you agree to these terms and conditions. If you have any questions, please',
     'terms.contactLink': 'contact us',
-    
+
     // Newsletter
     'newsletter.title': 'Get 10% Off Your First Rental!',
     'newsletter.description': 'Subscribe to our newsletter and receive exclusive offers and travel tips for Tulum.',
@@ -205,7 +205,7 @@ const translations = {
     'newsletter.noThanks': 'No thanks, maybe later',
     'newsletter.thanks': 'Thank You!',
     'newsletter.checkEmail': 'Check your email for your 10% discount code!',
-    
+
     // Calendar
     'calendar.january': 'January',
     'calendar.february': 'February',
@@ -236,7 +236,7 @@ const translations = {
     'nav.testimonials': 'Testimonios',
     'nav.terms': 'Términos',
     'nav.reviews': 'Reseñas',
-    
+
     // Home Page
     'hero.title': 'Recorre Tulum',
     'hero.subtitle': '¡Renta Motos y Autos Fácilmente!',
@@ -248,12 +248,7 @@ const translations = {
     'vehicles.description': 'Elige entre nuestra selección de motos y autos, perfectos para explorar Tulum y sus alrededores.',
     'vehicles.scooters': 'Motos',
     'vehicles.cars': 'Autos',
-    'vehicles.categories.scootersDescription': 'Zip around Tulum with lightweight, nimble scooters.',
-    'vehicles.categories.atvsDescription': 'Jungle-ready ATVs for off-road tours (launching soon).',
-    'vehicles.categories.carsDescription': 'Comfortable cars for beaches, ruins, and airport transfers.',
-    'vehicles.categories.view': 'See options',
-    'vehicles.categories.comingSoon': 'Our ATV fleet is coming online soon.',
-    'vehicles.categories.contact': 'Ping us on WhatsApp to reserve one in advance.',
+
     'vehicles.categories.scootersDescription': 'La forma más divertida y práctica de recorrer Tulum.',
     'vehicles.categories.atvsDescription': 'Vehículos todo terreno para tours selváticos y aventuras.',
     'vehicles.categories.carsDescription': 'Autos cómodos para playas, ruinas y traslados al aeropuerto.',
@@ -261,7 +256,7 @@ const translations = {
     'vehicles.categories.comingSoon': 'Estamos agregando nuestros ATVs al inventario.',
     'vehicles.categories.contact': 'Escríbenos en WhatsApp para reservar por adelantado.',
     'vehicle.viewDetails': 'Ver Detalles',
-    
+
     // Testimonials
     'testimonials.title': 'Lo Que Dicen Nuestros Clientes',
     'testimonials.viewAll': 'Ver Todas las Reseñas',
@@ -269,7 +264,7 @@ const translations = {
     'testimonials.averageRating': 'Calificación Promedio',
     'testimonials.totalReviews': 'Total de Reseñas',
     'testimonials.ratingBreakdown': 'Desglose de Calificaciones',
-    
+
     // Vehicle Detail
     'vehicle.features': 'Características',
     'vehicle.insurance': 'Seguro',
@@ -316,7 +311,7 @@ const translations = {
     'vehicle.booking.selectDates': 'Selecciona tus fechas de renta arriba para ver precios y reservar',
     'vehicle.quantity': 'Cantidad',
     'vehicle.multiVehicleDiscount': 'descuento por múltiples vehículos',
-    
+
     // Booking Modal
     'booking.title': 'Completa Tu Reserva',
     'booking.details': 'Detalles de Reserva',
@@ -337,7 +332,7 @@ const translations = {
     'booking.verified': 'Negocio Verificado',
     'booking.instant': 'Confirmación Instantánea',
     'booking.poweredBy': 'Impulsado por',
-    
+
     // Cart
     'cart.title': 'Tu Carrito',
     'cart.empty': 'Tu carrito está vacío',
@@ -346,11 +341,11 @@ const translations = {
     'cart.added': '¡Vehículo agregado al carrito!',
     'cart.itemsAdded': 'vehículos agregados al carrito!',
     'cart.items': 'Tus Artículos',
-    
+
     // About Page
-        'about.title': 'Acerca de Tulum OnWheels',
+    'about.title': 'Acerca de Tulum OnWheels',
     'about.story': 'Nuestra Historia',
-    'about.storyDesc': 'Bienvenido a Tulum OnWheels, su destino principal para explorar las hermosas playas y la vibrante cultura de Tulum, México. Fundado por viajeros apasionados que se enamoraron de la impresionante costa de Tulum y el rico patrimonio maya, hacemos que la aventura sea accesible con nuestra flota cuidadosamente mantenida de scooters y autos. Nos enorgullecemos de un servicio al cliente excepcional, precios competitivos y una experiencia de alquiler fluida.',
+    'about.storyDesc': 'Bienvenido a Tulum OnWheels, su destino principal para explorar las hermosas playas y la vibrante cultura de Tulum, México. Hacemos que la aventura sea accesible con nuestra flota cuidadosamente mantenida de scooters y autos.',
     'about.delivery': 'Servicio de Entrega',
     'about.delivery1': 'Entrega directa a su hotel o Airbnb',
     'about.delivery2': '100-200 MXN según la ubicación',
@@ -373,7 +368,7 @@ const translations = {
     'about.safetyDesc': 'Todos los vehículos están completamente asegurados y mantenidos regularmente para su seguridad y tranquilidad.',
     'about.fast': 'Rápido y Fácil',
     'about.fastDesc': 'Proceso de reserva rápido con confirmación instantánea. Salga a la carretera en minutos, no en horas.',
-    
+
     // Contact Page
     'contact.title': 'Contáctanos',
     'contact.sendMessage': 'Envíanos un Mensaje',
@@ -385,7 +380,7 @@ const translations = {
     'contact.getInTouch': 'Ponerse en Contacto',
     'contact.address': 'Dirección',
     'contact.hours': 'Horarios',
-    
+
     // Footer
     'footer.description': 'Tu socio de confianza para renta de motos y autos en Tulum.',
     'footer.quickLinks': 'Enlaces Rápidos',
@@ -393,7 +388,7 @@ const translations = {
     'footer.hours': 'Horarios: 8AM - 6PM',
     'footer.location': 'Tulum, México',
     'footer.rights': 'Todos los derechos reservados.',
-    
+
     // Terms
     'terms.title': 'Términos y Condiciones',
     'terms.age': 'Requisitos de Edad',
@@ -418,12 +413,12 @@ const translations = {
     'terms.damageDesc1': 'En caso de accidente o daño, los rentistas deben contactar inmediatamente nuestra línea de emergencia 24/7 y presentar un reporte policial si es requerido.',
     'terms.damageDesc2': 'Los rentistas son responsables de todos los costos asociados con daños, remolque y reparaciones no cubiertas por el seguro.',
     'terms.liability': 'Limitación de Responsabilidad',
-        'terms.liabilityDesc': 'Tulum OnWheels no es responsable de lesiones personales, pérdida o daño a propiedad personal mientras se usan nuestros vehículos de renta. Los rentistas son responsables de su propia seguridad y la seguridad de sus pasajeros.',
+    'terms.liabilityDesc': 'Tulum OnWheels no es responsable de lesiones personales, pérdida o daño a propiedad personal mientras se usan nuestros vehículos de renta. Los rentistas son responsables de su propia seguridad y la seguridad de sus pasajeros.',
     'terms.changes': 'Cambios a los Términos',
     'terms.changesDesc': 'Nos reservamos el derecho de modificar estos términos y condiciones en cualquier momento. Los términos actuales se aplican a todas las rentas activas.',
-        'terms.agree': 'Al reservar una renta con Tulum OnWheels, aceptas estos términos y condiciones. Si tienes alguna pregunta, por favor',
+    'terms.agree': 'Al reservar una renta con Tulum OnWheels, aceptas estos términos y condiciones. Si tienes alguna pregunta, por favor',
     'terms.contactLink': 'contáctanos',
-    
+
     // Newsletter
     'newsletter.title': '¡Obtén 10% de Descuento en tu Primera Renta!',
     'newsletter.description': 'Suscríbete a nuestro boletín y recibe ofertas exclusivas y consejos de viaje para Tulum.',
@@ -431,7 +426,7 @@ const translations = {
     'newsletter.noThanks': 'No gracias, tal vez después',
     'newsletter.thanks': '¡Gracias!',
     'newsletter.checkEmail': '¡Revisa tu correo para tu código de descuento del 10%!',
-    
+
     // Calendar
     'calendar.january': 'Enero',
     'calendar.february': 'Febrero',

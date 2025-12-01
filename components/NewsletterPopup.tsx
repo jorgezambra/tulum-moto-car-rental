@@ -45,13 +45,15 @@ export default function NewsletterPopup() {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-4">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
-            className="bg-white rounded-lg max-w-md w-full p-8 relative"
+            className="bg-white rounded-2xl max-w-md w-full p-8 relative shadow-2xl border border-turquoise/20"
           >
+            {/* Decorative element */}
+            <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-turquoise to-reef-deep rounded-t-2xl" />
             <button
               onClick={handleClose}
               className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"

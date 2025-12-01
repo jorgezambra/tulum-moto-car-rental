@@ -50,12 +50,12 @@ export default function TimePicker({ value, onChange, label }: TimePickerProps) 
 
   return (
     <div className="relative" ref={pickerRef}>
-      <label className="text-sm font-semibold text-gray-700 flex flex-col gap-1">
-        {label}
+      <label className="text-sm font-semibold text-gray-700 flex items-center justify-between gap-3 sm:flex-col sm:items-start sm:gap-1">
+        <span className="whitespace-nowrap">{label}</span>
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full border border-gray-200 rounded-lg px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-turquoise/40 focus:border-turquoise transition-colors text-left flex items-center justify-between bg-white hover:border-gray-300"
+          className="w-28 sm:w-full border border-gray-200 rounded-lg px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-turquoise/40 focus:border-turquoise transition-colors text-left flex items-center justify-between bg-white hover:border-gray-300"
         >
           <span className="font-medium">{displayValue}</span>
           <svg

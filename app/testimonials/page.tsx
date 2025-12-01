@@ -52,7 +52,7 @@ export default function TestimonialsPage() {
                       {[...Array(5)].map((_, i) => (
                         <svg
                           key={i}
-                          className={`w-5 h-5 ${
+                          className={`w-6 h-6 ${
                             i < review.rating
                               ? 'text-yellow-400'
                               : 'text-gray-300'

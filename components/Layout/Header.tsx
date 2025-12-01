@@ -20,17 +20,17 @@ export default function Header() {
   }
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 w-full bg-transparent">
-      <div className="w-full px-4 sm:px-6 lg:px-12 pt-6 lg:pt-10 pb-4">
-        <div className="flex items-center w-full gap-3 relative">
+    <header className="fixed top-0 left-0 right-0 z-50 w-full bg-black/20 backdrop-blur-md border-b border-white/10 shadow-lg">
+      <div className="w-full px-4 sm:px-6 lg:px-12 py-4 transition-all duration-300">
+        <div className="flex items-center w-full gap-3 relative justify-between">
           <button
             onClick={toggleMenu}
-            className="lg:hidden p-2 rounded-full bg-white/90 text-turquoise border border-white/70 backdrop-blur transition"
+            className="lg:hidden p-2 rounded-full bg-white/10 text-white border border-white/20 backdrop-blur-sm hover:bg-white/20 transition flex-shrink-0"
             aria-label="Toggle menu"
           >
             {isMenuOpen ? (
               <svg
-                className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700"
+                className="w-6 h-6"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -44,7 +44,7 @@ export default function Header() {
               </svg>
             ) : (
               <svg
-                className="w-5 h-5 sm:w-6 sm:h-6 text-gray-700"
+                className="w-6 h-6"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -58,47 +58,39 @@ export default function Header() {
               </svg>
             )}
           </button>
+          
           <Link
             href="/"
-            className="text-4xl sm:text-[3rem] font-black text-white whitespace-nowrap flex-1 text-center lg:flex-none lg:text-left tracking-wide"
+            className="text-xl sm:text-2xl lg:text-3xl font-black text-white tracking-tight drop-shadow-md hover:scale-105 transition-transform whitespace-nowrap"
           >
-            Tulum OnWheels
+            <span className="text-turquoise">Tulum</span> OnWheels
           </Link>
-          <nav className="hidden lg:flex items-center gap-3 xl:gap-4 ml-auto">
-              <Link
-                href="/"
-                className="text-sm xl:text-base font-semibold text-black whitespace-nowrap px-4 py-1.5 rounded-full bg-turquoise transition hover:bg-reef-deep"
-              >
-                {t('nav.home')}
-              </Link>
-              <Link
-                href="/#rentals"
-                className="text-sm xl:text-base font-semibold text-black whitespace-nowrap px-4 py-1.5 rounded-full bg-turquoise transition hover:bg-reef-deep"
-              >
-                {t('nav.rentals')}
-              </Link>
-              <Link
-                href="/#reviews"
-                className="text-sm xl:text-base font-semibold text-black whitespace-nowrap px-4 py-1.5 rounded-full bg-turquoise transition hover:bg-reef-deep"
-              >
-                {t('nav.reviews')}
-              </Link>
-              <Link
-                href="/about"
-                className="text-sm xl:text-base font-semibold text-black whitespace-nowrap px-4 py-1.5 rounded-full bg-turquoise transition hover:bg-reef-deep"
-              >
-                {t('nav.about')}
-              </Link>
-              <Link
-                href="/contact"
-                className="text-sm xl:text-base font-semibold text-black whitespace-nowrap px-4 py-1.5 rounded-full bg-turquoise transition hover:bg-reef-deep"
-              >
-                {t('nav.contact')}
-              </Link>
+
+          <nav className="hidden lg:flex items-center gap-2 xl:gap-4 ml-auto">
+              {[
+                { href: '/', label: 'nav.home' },
+                { href: '/#rentals', label: 'nav.rentals' },
+                { href: '/#reviews', label: 'nav.reviews' },
+                { href: '/about', label: 'nav.about' },
+                { href: '/contact', label: 'nav.contact' }
+              ].map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="relative px-4 py-2 text-sm font-bold text-white hover:text-turquoise transition-colors group"
+                >
+                  {t(link.label)}
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-turquoise transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+                </Link>
+              ))}
           </nav>
-          <div className="flex items-center gap-2 ml-2 lg:ml-4">
-            <LanguageToggle />
-            <CurrencyToggle />
+
+          <div className="flex items-center gap-3 ml-auto lg:ml-8 flex-shrink-0">
+            <div className="flex items-center bg-black/30 backdrop-blur-sm rounded-full p-1 border border-white/10">
+              <LanguageToggle />
+              <div className="w-px h-4 bg-white/20 mx-1" />
+              <CurrencyToggle />
+            </div>
           </div>
         </div>
 
@@ -106,48 +98,35 @@ export default function Header() {
         <AnimatePresence>
           {isMenuOpen && (
             <motion.nav
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.2 }}
-              className="lg:hidden fixed left-4 sm:left-6 top-[76px] z-[70]"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="lg:hidden overflow-hidden bg-black/90 backdrop-blur-xl border-t border-white/10 mt-4 rounded-2xl"
             >
-              <div className="inline-flex flex-col gap-2 border border-gray-200 rounded-lg bg-white shadow-xl px-4 py-3 w-max min-w-[200px]">
-                <Link
-                  href="/"
-                  onClick={closeMenu}
-                  className="text-base text-turquoise hover:text-reef-deep transition-colors py-1 whitespace-nowrap font-semibold"
-                >
-                  {t('nav.home')}
-                </Link>
-                <Link
-                  href="/#rentals"
-                  onClick={closeMenu}
-                  className="text-base text-turquoise hover:text-reef-deep transition-colors py-1 whitespace-nowrap font-semibold"
-                >
-                  {t('nav.rentals')}
-                </Link>
-                <Link
-                  href="/#reviews"
-                  onClick={closeMenu}
-                  className="text-base text-turquoise hover:text-reef-deep transition-colors py-1 whitespace-nowrap font-semibold"
-                >
-                  {t('nav.reviews')}
-                </Link>
-                <Link
-                  href="/about"
-                  onClick={closeMenu}
-                  className="text-base text-turquoise hover:text-reef-deep transition-colors py-1 whitespace-nowrap font-semibold"
-                >
-                  {t('nav.about')}
-                </Link>
-                <Link
-                  href="/contact"
-                  onClick={closeMenu}
-                  className="text-base text-turquoise hover:text-reef-deep transition-colors py-1 whitespace-nowrap font-semibold"
-                >
-                  {t('nav.contact')}
-                </Link>
+              <div className="flex flex-col p-4 gap-2">
+                {[
+                  { href: '/', label: 'nav.home' },
+                  { href: '/#rentals', label: 'nav.rentals' },
+                  { href: '/#reviews', label: 'nav.reviews' },
+                  { href: '/about', label: 'nav.about' },
+                  { href: '/contact', label: 'nav.contact' }
+                ].map((link, i) => (
+                  <motion.div
+                    key={link.href}
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: i * 0.1 }}
+                  >
+                    <Link
+                      href={link.href}
+                      onClick={closeMenu}
+                      className="block px-4 py-3 text-lg font-bold text-white hover:text-turquoise hover:bg-white/5 rounded-xl transition-all border-b border-white/5 last:border-0"
+                    >
+                      {t(link.label)}
+                    </Link>
+                  </motion.div>
+                ))}
               </div>
             </motion.nav>
           )}

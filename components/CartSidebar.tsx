@@ -8,42 +8,58 @@ import { useLanguage } from '@/contexts/LanguageContext'
 import Image from 'next/image'
 import BookingModal from './BookingModal'
 
-export default function CartSidebar() {
+interface CartSidebarProps {
+  isOpen?: boolean
+  onClose?: () => void
+}
+
+export default function CartSidebar({ isOpen: externalIsOpen, onClose: externalOnClose }: CartSidebarProps = {} as CartSidebarProps) {
   const { items, removeFromCart, clearCart, getTotalPrice } = useCart()
   const { formatPrice } = useCurrency()
   const { t } = useLanguage()
-  const [isOpen, setIsOpen] = useState(false)
+  const [internalIsOpen, setInternalIsOpen] = useState(false)
   const [showCheckout, setShowCheckout] = useState(false)
+
+  const isOpen = externalIsOpen !== undefined ? externalIsOpen : internalIsOpen
+  const handleClose = () => {
+    if (externalOnClose) {
+      externalOnClose()
+    } else {
+      setInternalIsOpen(false)
+    }
+  }
 
   const totalPrice = getTotalPrice()
 
   return (
     <>
-      {/* Cart Button */}
-      <button
-        onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 z-40 bg-turquoise hover:bg-reef-deep text-white rounded-full p-4 shadow-lg transition-all transform hover:scale-110 flex items-center gap-2"
-        aria-label="Open cart"
-      >
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
+      {/* Cart Button - Only show if not externally controlled */}
+      {externalIsOpen === undefined && (
+        <button
+          onClick={() => setInternalIsOpen(true)}
+          className="fixed bottom-6 right-6 z-40 bg-turquoise hover:bg-reef-deep text-white rounded-full p-4 shadow-lg transition-all transform hover:scale-110 flex items-center gap-2"
+          aria-label="Open cart"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-          />
-        </svg>
-        {items.length > 0 && (
-          <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
-            {items.length}
-          </span>
-        )}
-      </button>
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+            />
+          </svg>
+          {items.length > 0 && (
+            <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
+              {items.length}
+            </span>
+          )}
+        </button>
+      )}
 
       {/* Cart Sidebar */}
       <AnimatePresence>
@@ -51,7 +67,7 @@ export default function CartSidebar() {
           <>
             <div
               className="fixed inset-0 bg-black/50 z-50"
-              onClick={() => setIsOpen(false)}
+              onClick={handleClose}
             />
             <motion.div
               initial={{ x: '100%' }}
@@ -66,7 +82,7 @@ export default function CartSidebar() {
                   {t('cart.title') || 'Your Cart'}
                 </h2>
                 <button
-                  onClick={() => setIsOpen(false)}
+                  onClick={handleClose}
                   className="text-gray-500 hover:text-gray-700"
                   aria-label="Close cart"
                 >
@@ -165,7 +181,7 @@ export default function CartSidebar() {
                   <button
                     onClick={() => {
                       setShowCheckout(true)
-                      setIsOpen(false)
+                      handleClose()
                     }}
                     className="w-full bg-turquoise hover:bg-reef-deep text-white font-bold py-3 px-6 rounded-lg transition-all transform hover:scale-105 shadow-lg"
                   >
