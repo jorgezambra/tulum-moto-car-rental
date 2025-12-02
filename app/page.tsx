@@ -21,7 +21,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main className="w-full overflow-x-hidden overflow-y-visible bg-[#F5F9F9] relative">
+      <main className="w-full bg-[#F5F9F9] relative">
         {/* Adventure Pattern Background */}
         <div className="absolute inset-0 z-0 opacity-5 pointer-events-none" 
              style={{ 

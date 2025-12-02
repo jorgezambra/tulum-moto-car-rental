@@ -577,7 +577,7 @@ export default function VehicleDetailsExpanded({
               </div>
 
               {/* Right Column: Booking Summary */}
-              <div className="space-y-3 h-full overflow-y-auto overflow-x-visible">
+              <div className="space-y-3 h-full overflow-visible">
                 {/* Booking Summary */}
                 <div className="bg-white border-2 border-turquoise rounded-lg shadow-lg p-3">
                   <h3 className="text-base font-bold mb-3 text-reef-ink text-center">{t('vehicle.booking.summary')}</h3>

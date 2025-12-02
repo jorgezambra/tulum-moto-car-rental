@@ -1,6 +1,7 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useLanguage } from '@/contexts/LanguageContext'
 
@@ -37,6 +38,49 @@ export default function PaymentRequestModal({
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
+  const [mounted, setMounted] = useState(false)
+
+  // Handle mounting for portal
+  useEffect(() => {
+    setMounted(true)
+    return () => setMounted(false)
+  }, [])
+
+  // Lock body scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      // Save current scroll position
+      const scrollY = window.scrollY
+      document.body.style.position = 'fixed'
+      document.body.style.top = `-${scrollY}px`
+      document.body.style.width = '100%'
+      document.body.classList.add('body-lock')
+      
+      // Prevent scroll on backdrop
+      document.documentElement.style.overflow = 'hidden'
+    } else {
+      // Restore scroll position
+      const scrollY = document.body.style.top
+      document.body.classList.remove('body-lock')
+      document.body.style.position = ''
+      document.body.style.top = ''
+      document.body.style.width = ''
+      document.documentElement.style.overflow = ''
+      
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1)
+      }
+    }
+    
+    return () => {
+      // Cleanup on unmount
+      document.body.classList.remove('body-lock')
+      document.body.style.position = ''
+      document.body.style.top = ''
+      document.body.style.width = ''
+      document.documentElement.style.overflow = ''
+    }
+  }, [isOpen])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -48,7 +92,13 @@ export default function PaymentRequestModal({
     onClose()
   }
 
-  return (
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onClose()
+    }
+  }
+
+  const modalContent = (
     <AnimatePresence>
       {isOpen && (
         <>
@@ -57,8 +107,10 @@ export default function PaymentRequestModal({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={onClose}
-            className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+            onClick={handleBackdropClick}
+            onTouchMove={(e) => e.preventDefault()}
+            className="fixed inset-0 bg-black/50 z-[9999] flex items-center justify-center p-4"
+            style={{ touchAction: 'none' }}
           >
             {/* Modal */}
             <motion.div
@@ -66,7 +118,9 @@ export default function PaymentRequestModal({
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
               onClick={(e) => e.stopPropagation()}
-              className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto"
+              onTouchMove={(e) => e.stopPropagation()}
+              className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto my-auto"
+              style={{ touchAction: 'auto' }}
             >
               <div className="p-6">
                 {/* Header */}
@@ -226,5 +280,9 @@ export default function PaymentRequestModal({
       )}
     </AnimatePresence>
   )
+
+  if (!mounted) return null
+
+  return createPortal(modalContent, document.body)
 }
 
