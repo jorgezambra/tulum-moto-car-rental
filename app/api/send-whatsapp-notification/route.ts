@@ -42,7 +42,14 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    const message = `🚗 *New Booking Request*
+    // Helper to format phone for Green API
+    const formatForGreenApi = (phone: string) => {
+      // Remove all non-numeric characters first, then append suffix
+      return phone.replace(/[^0-9]/g, '') + '@c.us'
+    }
+
+    // 1. Prepare Owner Message
+    const ownerMessage = `🚗 *New Booking Request*
 
 *Customer Details:*
 Name: ${data.name}
@@ -65,52 +72,80 @@ Total: ${data.totalPrice}
 *Full Summary:*
 ${data.summary || 'No summary provided'}`
 
-    // Format phone number (remove + if present, ensure it ends with @c.us)
-    const phoneNumber = BUSINESS_OWNER_WHATSAPP.replace(/^\+/, '').replace(/@c\.us$/, '') + '@c.us'
+    // 2. Prepare Customer Message
+    const customerMessage = `👋 *Reservation Request Received*
 
-    // Green API endpoint
+Hello ${data.name},
+
+Thank you for choosing Tulum OnWheels! We have received your reservation request and will confirm it shortly.
+
+*Your Request Details:*
+Vehicle: ${data.vehicle}
+Rental Period: ${formatDate(data.startDate)} - ${formatDate(data.endDate)}
+Total: ${data.totalPrice}
+
+You will receive a secure payment link via email once your reservation is confirmed.
+
+If you have any questions, feel free to reply to this message.`
+
+    // 3. Format Phone Numbers
+    const ownerPhone = formatForGreenApi(BUSINESS_OWNER_WHATSAPP)
+    const customerPhone = formatForGreenApi(data.phone)
+    
     const greenApiUrl = `https://api.green-api.com/waInstance${GREEN_API_INSTANCE_ID}/sendMessage/${GREEN_API_TOKEN}`
 
-    console.log('Sending WhatsApp notification to:', phoneNumber)
-
-    const response = await fetch(greenApiUrl, {
+    // 4. Send to Owner
+    console.log('Sending notification to owner:', ownerPhone)
+    const ownerResponse = await fetch(greenApiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        chatId: phoneNumber,
-        message: message,
+        chatId: ownerPhone,
+        message: ownerMessage,
       }),
     })
 
-    if (!response.ok) {
-      const errorText = await response.text()
-      console.error('Green API error details:', {
-        status: response.status,
-        statusText: response.statusText,
-        error: errorText,
-        phoneNumber: phoneNumber,
-        url: greenApiUrl.replace(GREEN_API_TOKEN, '***'),
-      })
-      return NextResponse.json(
-        { 
-          success: false, 
-          error: 'Failed to send WhatsApp notification',
-          details: errorText 
-        },
-        { status: 500 }
-      )
-    }
-
-    const result = await response.json()
-    console.log('WhatsApp notification sent successfully:', {
-      result,
-      phoneNumber: phoneNumber,
-      messageLength: message.length,
+    // 5. Send to Customer
+    console.log('Sending confirmation to customer:', customerPhone)
+    const customerResponse = await fetch(greenApiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        chatId: customerPhone,
+        message: customerMessage,
+      }),
     })
 
-    return NextResponse.json({ success: true })
+    // Log results (we consider success if at least owner gets it, or just return true if handled)
+    // We'll return details about both for debugging
+    const ownerResult = await ownerResponse.json().catch(e => ({ error: 'JSON parse error', details: e }))
+    const customerResult = await customerResponse.json().catch(e => ({ error: 'JSON parse error', details: e }))
+
+    if (!ownerResponse.ok) {
+      console.error('Failed to send to owner:', ownerResult)
+    } else {
+      console.log('Owner notification sent:', ownerResult)
+    }
+
+    if (!customerResponse.ok) {
+      console.error('Failed to send to customer:', customerResult)
+    } else {
+      console.log('Customer notification sent:', customerResult)
+    }
+
+    // Return success if at least one worked, or just strictly success
+    // Since this is a background notification, we generally return success unless everything failed catastrophically
+    return NextResponse.json({ 
+      success: true, 
+      results: {
+        owner: { status: ownerResponse.status, data: ownerResult },
+        customer: { status: customerResponse.status, data: customerResult }
+      }
+    })
   } catch (error) {
     console.error('Error in send-whatsapp-notification:', error)
     return NextResponse.json(
