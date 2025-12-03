@@ -2,8 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import Image from 'next/image'
-import { getCars, getScooters } from '@/data/vehicles'
+import { getCars, getScooters, getATVs } from '@/data/vehicles'
 import { useLanguage } from '@/contexts/LanguageContext'
 import VehicleCard from './VehicleCard'
 import VehicleDetailsExpanded from './VehicleDetailsExpanded'
@@ -15,6 +14,7 @@ export default function VehicleCategoryShowcase() {
   const { t } = useLanguage()
   const scooters = getScooters()
   const cars = getCars()
+  const atvs = getATVs()
   const [activeCategory, setActiveCategory] = useState<CategoryKey | null>(null)
   const [expandedVehicle, setExpandedVehicle] = useState<Vehicle | null>(null)
   const [scrollStates, setScrollStates] = useState<{ [key: string]: { left: boolean; right: boolean } }>({})
@@ -51,21 +51,21 @@ export default function VehicleCategoryShowcase() {
       title: t('vehicles.scooters'),
       accent: 'from-turquoise via-white to-white',
       vehicles: scooters,
-      image: '/images/vehicles/ChatGPT Image Nov 22, 2025, 11_31_07 AM.png',
+      image: '/images/vehicles/scooter nobg.png',
     },
     {
       key: 'atvs' as const,
       title: 'ATVs & Buggies',
       accent: 'from-[#ffd29c] via-white to-white',
-      vehicles: [],
-      image: '/images/vehicles/ChatGPT Image Nov 22, 2025, 11_42_23 AM.png',
+      vehicles: atvs,
+      image: '/images/vehicles/atvnobg.png',
     },
     {
       key: 'cars' as const,
       title: t('vehicles.cars'),
       accent: 'from-[#b0d6ff] via-white to-white',
       vehicles: cars,
-      image: '/images/vehicles/ChatGPT Image Nov 22, 2025, 11_42_34 AM.png',
+      image: '/images/vehicles/jeep nobg.png',
     },
   ]
 
@@ -75,6 +75,8 @@ export default function VehicleCategoryShowcase() {
         return scooters
       case 'cars':
         return cars
+      case 'atvs':
+        return atvs
       default:
         return []
     }
@@ -216,32 +218,38 @@ export default function VehicleCategoryShowcase() {
 
   const renderCategoryCard = (category: typeof categories[0], isActive: boolean) => {
     return (
-      <div className="flex-shrink-0 w-[165px] sm:w-[200px] md:w-[320px]">
+      <div className="flex-shrink-0 w-[110px] sm:w-[130px] md:w-[320px]">
         <button
           type="button"
           onClick={(e) => {
             e.preventDefault()
             e.stopPropagation()
-            setActiveCategory(isActive ? null : category.key)
+            if (isActive) {
+              // Closing category - also close any expanded vehicle
+              setActiveCategory(null)
+              setExpandedVehicle(null)
+            } else {
+              // Opening category - clear any previously expanded vehicle
+              setActiveCategory(category.key)
+              setExpandedVehicle(null)
+            }
           }}
-          className={`relative w-full aspect-square text-left rounded-xl md:rounded-2xl border-2 border-black bg-gradient-to-br ${category.accent} hover:-translate-y-2 transition-all duration-300 overflow-hidden cursor-pointer`}
+          className="relative w-full aspect-square hover:scale-105 transition-transform duration-300 cursor-pointer bg-transparent border-none outline-none p-0 flex items-center justify-center"
+          style={{ background: 'transparent' }}
         >
-          <div className="absolute inset-0 z-0">
-            <Image
-              src={category.image}
-              alt={category.title}
-              fill
-              className="object-cover brightness-110 saturate-110"
-              sizes="(max-width: 768px) 165px, (max-width: 640px) 200px, 320px"
-              priority={false}
-            />
-          </div>
-          <div className="absolute inset-0 z-10 flex items-start justify-center pt-4 md:pt-6 sm:pt-8 px-2">
-            <h3 className="text-2xl sm:text-3xl md:text-5xl font-bold text-white text-center">
-              {category.title}
-            </h3>
-          </div>
+          <img
+            src={category.image}
+            alt={category.title}
+            className="w-full h-full object-contain"
+            style={{ background: 'transparent' }}
+          />
         </button>
+        {/* Category title below the card */}
+        <div className="mt-2 text-center">
+          <h3 className="text-sm sm:text-xl md:text-3xl lg:text-4xl font-bold text-black">
+            {category.title}
+          </h3>
+        </div>
       </div>
     )
   }
@@ -250,54 +258,14 @@ export default function VehicleCategoryShowcase() {
     <div className="space-y-6 md:space-y-8">
       {/* Horizontal Scrollable Layout: All cards in one row */}
       <div className="relative w-full">
-        {/* Mobile: Scrollable */}
-        <div className="md:hidden relative">
-          {/* Left arrow */}
-          <button
-            type="button"
-            onClick={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
-              scrollCategories('left')
-            }}
-            className={`absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-white text-reef-ink border border-turquoise rounded-full p-1 shadow-md transition-opacity ${categoryScrollState.left ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-            aria-label="Scroll categories left"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          {/* Right arrow */}
-          <button
-            type="button"
-            onClick={(e) => {
-              e.preventDefault()
-              e.stopPropagation()
-              scrollCategories('right')
-            }}
-            className={`absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-white text-reef-ink border border-turquoise rounded-full p-1 shadow-md transition-opacity ${categoryScrollState.right ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
-            aria-label="Scroll categories right"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
-
-          <div
-            ref={categoriesScrollRef}
-            className="overflow-x-auto scrollbar-hide scroll-smooth pl-12 pr-12"
-            style={{ WebkitOverflowScrolling: 'touch', scrollSnapType: 'x mandatory' }}
-            onScroll={() => {
-              requestAnimationFrame(() => updateCategoryScrollState())
-            }}
-          >
-            <div className="flex gap-4 items-start py-4" style={{ width: 'max-content' }}>
-              {categories.map((category) => (
-                <div key={category.key} style={{ scrollSnapAlign: 'start' }}>
-                  {renderCategoryCard(category, activeCategory === category.key)}
-                </div>
-              ))}
-            </div>
+        {/* Mobile: All three cards visible, centered, no padding */}
+        <div className="md:hidden flex justify-center items-start py-4">
+          <div className="flex gap-0 items-start">
+            {categories.map((category) => (
+              <div key={category.key}>
+                {renderCategoryCard(category, activeCategory === category.key)}
+              </div>
+            ))}
           </div>
         </div>
         {/* Desktop: Centered */}
@@ -324,23 +292,7 @@ export default function VehicleCategoryShowcase() {
             transition={{ duration: 0.3 }}
             className="pt-4 overflow-visible w-full"
           >
-            {activeCategory === 'atvs' ? (
-              <div className="p-6 text-center">
-                <p className="text-lg font-semibold text-gray-800 mb-2">
-                  {t('vehicles.categories.comingSoon')}
-                </p>
-                <p className="text-sm text-gray-500 mb-4">
-                  {t('vehicles.categories.contact')}
-                </p>
-                <a
-                  href="https://wa.me/5219841234567"
-                  className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-turquoise text-white font-semibold shadow hover:bg-reef-deep transition"
-                >
-                  WhatsApp
-                </a>
-              </div>
-            ) : (
-              <div className="relative w-full">
+            <div className="relative w-full">
                 {/* Mobile: Scrollable carousel with arrows */}
                 <div className="md:hidden relative">
                   {/* Left Arrow */}
@@ -407,7 +359,7 @@ export default function VehicleCategoryShowcase() {
                         updateScrollState(activeCategory)
                       }
                     }}
-                    className="flex overflow-x-auto gap-4 scrollbar-hide scroll-smooth px-12 py-4"
+                    className="flex overflow-x-auto gap-4 scrollbar-hide scroll-smooth pl-[88px] pr-12 py-4"
                     style={{ scrollSnapType: 'x mandatory' }}
                     onScroll={(e) => {
                       requestAnimationFrame(() => {
@@ -461,7 +413,6 @@ export default function VehicleCategoryShowcase() {
                   </div>
                 </div>
               </div>
-            )}
           </motion.div>
         )}
       </AnimatePresence>

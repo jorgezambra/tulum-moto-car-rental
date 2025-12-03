@@ -22,7 +22,7 @@ export default function ContactSection() {
   }
 
   return (
-    <section id="contact" className="w-full max-w-7xl mx-auto px-4 sm:px-6 bg-white relative overflow-hidden">
+    <section id="contact" className="w-full max-w-7xl mx-auto px-4 sm:px-6 relative overflow-hidden py-12">
       {/* Decorative background elements */}
       <div className="absolute top-0 right-0 w-64 h-64 bg-turquoise/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
       <div className="absolute bottom-0 left-0 w-64 h-64 bg-reef-deep/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
@@ -36,7 +36,7 @@ export default function ContactSection() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 max-w-4xl mx-auto">
           {/* Contact Form */}
-          <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 sm:p-8 transform transition-all hover:shadow-2xl">
+          <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/20 p-6 sm:p-8 transform transition-all hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)]">
             <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4">
               {t('contact.sendMessage')}
             </h3>
@@ -118,7 +118,7 @@ export default function ContactSection() {
 
           {/* Contact Info & Map */}
           <div className="space-y-6">
-          <div className="bg-white rounded-lg shadow-md p-6 sm:p-8">
+          <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/20 p-6 sm:p-8">
             <h3 className="text-2xl font-bold text-gray-800 mb-6">
               {t('contact.getInTouch')}
             </h3>

@@ -1,7 +1,7 @@
 export interface Vehicle {
   id: string
   name: string
-  type: 'scooter' | 'car'
+  type: 'scooter' | 'car' | 'atv'
   model: string
   pricePerDay: number // in MXN
   images: string[]

@@ -25,10 +25,10 @@ export default function TestimonialsSection() {
   }
 
   return (
-    <section id="reviews" className="w-full max-w-7xl mx-auto px-4 sm:px-6 bg-white">
+    <section id="reviews" className="w-full max-w-7xl mx-auto px-4 sm:px-6 py-12">
       <div className="w-full">
         <div className="text-center mb-8 sm:mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4 inline-block border-2 border-black px-6 py-2">
+          <h2 className="text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-700 mb-4 inline-block border-b-4 border-turquoise px-6 py-2">
             {t('testimonials.title')}
           </h2>
         </div>
@@ -110,7 +110,7 @@ export default function TestimonialsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="bg-gray-50 rounded-lg shadow-md p-4 sm:p-5"
+              className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-white/20 p-6 sm:p-8 hover:transform hover:-translate-y-1 transition-all duration-300"
             >
               <div className="flex items-center gap-3 mb-3">
                 {review.image ? (

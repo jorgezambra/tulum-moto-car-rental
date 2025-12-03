@@ -91,15 +91,15 @@ export default function AboutSection() {
         {/* Why Choose Us */}
         <div className="mt-16 sm:mt-20 mb-8">
           <div className="text-center mb-8 sm:mb-12">
-            <h3 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-4 inline-block border-2 border-black px-6 py-2">
+            <h3 className="text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-gray-900 to-gray-700 mb-4 inline-block border-b-4 border-turquoise px-6 py-2">
               {t('about.whyChoose')}
             </h3>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
-            <div className="bg-gradient-to-br from-turquoise/5 to-white rounded-lg shadow-md p-4 border border-turquoise/10 hover:shadow-lg transition-shadow w-full">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 border border-white/20 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300 w-full group">
               <div className="flex flex-col items-center text-center">
                 <div className="mb-3 w-10 h-10 flex items-center justify-center">
-                  <svg className="w-10 h-10 text-black" fill="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/>
                   </svg>
                 </div>
@@ -131,7 +131,7 @@ export default function AboutSection() {
             <div className="bg-gradient-to-br from-turquoise/5 to-white rounded-lg shadow-md p-4 border border-turquoise/10 hover:shadow-lg transition-shadow w-full">
               <div className="flex flex-col items-center text-center">
                 <div className="mb-3 w-10 h-10 flex items-center justify-center">
-                  <svg className="w-10 h-10 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
                 </div>

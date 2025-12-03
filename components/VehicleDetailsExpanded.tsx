@@ -167,43 +167,111 @@ export default function VehicleDetailsExpanded({
     setShowPaymentModal(true)
   }
 
-  const handlePaymentSubmit = (data: { name: string; phone: string; email: string }) => {
-    console.log('Payment request submitted:', {
-      ...data,
-      vehicle: vehicle.name,
-      bookingTotal,
-      startDate,
-      endDate,
-      quantity,
-      deliveryEnabled,
-      insuranceEnabled,
-    })
+  const handlePaymentSubmit = async (data: { name: string; phone: string; email: string }): Promise<boolean> => {
+    if (!bookingTotal || !startDate || !endDate) {
+      console.error('Missing booking totals or dates')
+      return false
+    }
 
-    const whatsappNumber = '529991325216'
-    const rentalDates =
-      startDate && endDate
-        ? `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`
-        : 'Not specified'
+    // Build extras list
+    const extras: string[] = []
+    if (deliveryEnabled) extras.push('Delivery')
+    if (insuranceEnabled) extras.push('Insurance')
 
-    const lines = [
-      '*New Payment Request*',
+    // Individual extra costs
+    const deliveryCost = deliveryEnabled ? 100 * quantity : 0
+    const insuranceCost = insuranceEnabled ? Math.round(bookingTotal.subtotal * 0.1) : 0
+
+    // Human-readable rental dates
+    const rentalDates = `${startDate.toLocaleDateString()} - ${endDate.toLocaleDateString()}`
+
+    // Full text summary to send to Jotform
+    const summaryLines = [
+      'New Booking Request',
+      '',
       `Name: ${data.name}`,
       `Phone: ${data.phone}`,
       `Email: ${data.email}`,
+      '',
       `Vehicle: ${vehicle.name}`,
+      `Price per day: ${formatPrice(vehicle.pricePerDay, { includeSuffix: false })}`,
       `Quantity: ${quantity}`,
-      `Delivery: ${deliveryEnabled ? 'Yes' : 'No'}`,
-      `Insurance: ${insuranceEnabled ? 'Yes' : 'No'}`,
+      `Days: ${bookingTotal.days}`,
+      '',
+      `Delivery selected: ${deliveryEnabled ? 'Yes' : 'No'}`,
+      deliveryEnabled ? `Delivery cost: ${formatPrice(deliveryCost, { includeSuffix: false })}` : '',
+      `Insurance selected: ${insuranceEnabled ? 'Yes' : 'No'}`,
+      insuranceEnabled ? `Insurance cost: ${formatPrice(insuranceCost, { includeSuffix: false })}` : '',
+      '',
+      `Subtotal: ${formatPrice(bookingTotal.subtotal, { includeSuffix: false })}`,
+      bookingTotal.discount > 0
+        ? `Discount (${bookingTotal.discountPercent}%): -${formatPrice(bookingTotal.discount, { includeSuffix: false })}`
+        : '',
+      `Total: ${formatPrice(bookingTotal.total, { includeSuffix: false })}`,
+      '',
       `Rental period: ${rentalDates}`,
       `Pickup time: ${pickupTime}`,
       `Dropoff time: ${dropoffTime}`,
-      `Days: ${bookingTotal.days}`,
-      `Total: ${formatPrice(bookingTotal.total, { includeSuffix: false })}`,
-    ]
+    ].filter(Boolean)
 
-    const message = encodeURIComponent(lines.join('\n'))
-    window.open(`https://wa.me/${whatsappNumber}?text=${message}`, '_blank')
-    alert('Payment request sent! We will get back to you shortly via WhatsApp.')
+    const bookingData = {
+      name: data.name,
+      phone: data.phone,
+      email: data.email,
+      startDate: startDate.toISOString(),
+      endDate: endDate.toISOString(),
+      vehicle: vehicle.name,
+      extras: extras.join(', '),
+      totalPrice: formatPrice(bookingTotal.total, { includeSuffix: false }),
+      quantity,
+      pickupTime,
+      dropoffTime,
+      summary: summaryLines.join('\n'),
+    }
+
+    try {
+      const response = await fetch('/api/jotform-proxy', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(bookingData),
+      })
+
+      const result = await response.json()
+
+      if (result.success) {
+        // Send WhatsApp notification (non-blocking - don't wait for response)
+        fetch('/api/send-whatsapp-notification', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(bookingData),
+        })
+        .then(async (response) => {
+          if (!response.ok) {
+            const errorData = await response.json().catch(() => ({ error: 'Unknown error' }))
+            console.error('WhatsApp notification failed:', response.status, errorData)
+          } else {
+            const result = await response.json()
+            console.log('WhatsApp notification sent successfully:', result)
+          }
+        })
+        .catch((error) => {
+          // Silently handle WhatsApp errors - don't block form submission
+          console.error('WhatsApp notification failed (non-blocking):', error)
+        })
+
+        return true
+      } else {
+        console.error('Submission failed:', result.error)
+        return false
+      }
+    } catch (error) {
+      console.error('Error submitting booking:', error)
+      return false
+    }
   }
 
   const primaryImage = vehicle.images[0]

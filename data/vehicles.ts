@@ -43,6 +43,18 @@ export const getVehicleDescription = (vehicleId: string, language: 'en' | 'es'):
       en: 'Premium sedan with elevated comfort and smooth highway cruising.',
       es: 'Sedán premium con comodidad superior y manejo suave en carretera.',
     },
+    'atv-1': {
+      en: 'Powerful ATV with 200cc engine, perfect for off-road adventures and exploring Tulum\'s rugged terrain.',
+      es: 'ATV potente con motor de 200cc, perfecto para aventuras todoterreno y explorar el terreno accidentado de Tulum.',
+    },
+    'atv-2': {
+      en: 'High-performance ATV with 350cc engine, ideal for beach rides and jungle exploration.',
+      es: 'ATV de alto rendimiento con motor de 350cc, ideal para paseos por la playa y exploración de la selva.',
+    },
+    'atv-3': {
+      en: 'Reliable ATV with 250cc engine, great for navigating Tulum\'s diverse landscapes.',
+      es: 'ATV confiable con motor de 250cc, excelente para navegar los diversos paisajes de Tulum.',
+    },
   }
 
   return descriptions[vehicleId]?.[language] || descriptions[vehicleId]?.en || ''
@@ -114,6 +126,46 @@ export const vehicles: Vehicle[] = [
       '/images/vehicles/moto/vespa-pink.png',
     ],
     description: 'Elegant light pink scooter with classic retro design. Brown leather seat and chrome details. Perfect for leisurely rides through Tulum.',
+  },
+  // ATVs
+  {
+    id: 'atv-1',
+    name: 'ATV 200',
+    type: 'atv',
+    model: 'ATV 200',
+    pricePerDay: 600,
+    images: [
+      '/images/vehicles/atv/atv.png',
+      '/images/vehicles/atv/atv.png',
+      '/images/vehicles/atv/atv.png',
+    ],
+    description: 'Powerful ATV with 200cc engine, perfect for off-road adventures and exploring Tulum\'s rugged terrain.',
+  },
+  {
+    id: 'atv-2',
+    name: 'ATV 350',
+    type: 'atv',
+    model: 'ATV 350',
+    pricePerDay: 525,
+    images: [
+      '/images/vehicles/atv/Gemini_Generated_Image_1myse21myse21mys.png',
+      '/images/vehicles/atv/Gemini_Generated_Image_1myse21myse21mys.png',
+      '/images/vehicles/atv/Gemini_Generated_Image_1myse21myse21mys.png',
+    ],
+    description: 'High-performance ATV with 350cc engine, ideal for beach rides and jungle exploration.',
+  },
+  {
+    id: 'atv-3',
+    name: 'ATV 250',
+    type: 'atv',
+    model: 'ATV 250',
+    pricePerDay: 375,
+    images: [
+      '/images/vehicles/atv/Gemini_Generated_Image_eme7a6eme7a6eme7.png',
+      '/images/vehicles/atv/Gemini_Generated_Image_eme7a6eme7a6eme7.png',
+      '/images/vehicles/atv/Gemini_Generated_Image_eme7a6eme7a6eme7.png',
+    ],
+    description: 'Reliable ATV with 250cc engine, great for navigating Tulum\'s diverse landscapes.',
   },
   // Cars
   {
@@ -194,5 +246,9 @@ export const getScooters = (): Vehicle[] => {
 
 export const getCars = (): Vehicle[] => {
   return vehicles.filter(v => v.type === 'car')
+}
+
+export const getATVs = (): Vehicle[] => {
+  return vehicles.filter(v => v.type === 'atv')
 }
 

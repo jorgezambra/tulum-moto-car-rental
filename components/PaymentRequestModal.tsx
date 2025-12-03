@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useLanguage } from '@/contexts/LanguageContext'
@@ -24,8 +24,97 @@ interface BookingSummary {
 interface PaymentRequestModalProps {
   isOpen: boolean
   onClose: () => void
-  onSubmit: (data: { name: string; phone: string; email: string }) => void
+  onSubmit: (data: { name: string; phone: string; email: string }) => Promise<boolean>
   summary?: BookingSummary | null
+}
+
+const CountrySelect = ({ 
+  value, 
+  onChange, 
+  countries 
+}: { 
+  value: string
+  onChange: (code: string) => void
+  countries: { code: string; name: string; flag: string }[]
+}) => {
+  const [isOpen, setIsOpen] = useState(false)
+  const [search, setSearch] = useState('')
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const filteredCountries = countries.filter(c => 
+    c.name.toLowerCase().includes(search.toLowerCase()) || 
+    c.code.includes(search)
+  )
+
+  const selectedCountry = countries.find(c => c.code === value)
+
+  return (
+    <div className="relative min-w-[140px] w-[140px]" ref={dropdownRef}>
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full px-3 py-2 border-2 border-gray-300 rounded-lg bg-white focus:border-turquoise focus:outline-none text-sm flex items-center justify-between gap-2"
+      >
+        <span className="truncate text-gray-700 font-medium">
+          {selectedCountry ? `${selectedCountry.flag} ${selectedCountry.code}` : value}
+        </span>
+        <svg className="w-4 h-4 text-gray-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+
+      {isOpen && (
+        <div className="absolute top-full left-0 mt-1 w-64 bg-white border border-gray-200 rounded-lg shadow-xl z-50 max-h-60 flex flex-col">
+          <div className="p-2 border-b border-gray-100 sticky top-0 bg-white rounded-t-lg">
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search country..."
+              className="w-full px-2 py-1 border border-gray-200 rounded text-sm focus:outline-none focus:border-turquoise"
+              autoFocus
+            />
+          </div>
+          <div className="overflow-y-auto flex-1">
+            {filteredCountries.map((country) => (
+              <button
+                key={`${country.code}-${country.name}`}
+                type="button"
+                onClick={() => {
+                  onChange(country.code)
+                  setIsOpen(false)
+                  setSearch('')
+                }}
+                className={`w-full px-4 py-2 text-left text-sm hover:bg-turquoise/10 flex items-center gap-2 ${
+                  value === country.code ? 'bg-turquoise/5 text-turquoise font-medium' : 'text-gray-700'
+                }`}
+              >
+                <span className="text-lg">{country.flag}</span>
+                <span className="font-medium w-12">{country.code}</span>
+                <span className="truncate">{country.name}</span>
+              </button>
+            ))}
+            {filteredCountries.length === 0 && (
+              <div className="px-4 py-2 text-sm text-gray-500 text-center">
+                No countries found
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  )
 }
 
 export default function PaymentRequestModal({
@@ -36,9 +125,66 @@ export default function PaymentRequestModal({
 }: PaymentRequestModalProps) {
   const { t } = useLanguage()
   const [name, setName] = useState('')
-  const [phone, setPhone] = useState('')
+  const [countryCode, setCountryCode] = useState('+52')
+  const [phoneNumber, setPhoneNumber] = useState('')
   const [email, setEmail] = useState('')
   const [mounted, setMounted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
+  
+  // Comprehensive country codes list with flags (emoji flags)
+  const countryCodes = [
+    { code: '+1', name: 'US/CA', flag: '🇺🇸' },
+    { code: '+52', name: 'Mexico', flag: '🇲🇽' },
+    { code: '+44', name: 'UK', flag: '🇬🇧' },
+    { code: '+34', name: 'Spain', flag: '🇪🇸' },
+    { code: '+49', name: 'Germany', flag: '🇩🇪' },
+    { code: '+33', name: 'France', flag: '🇫🇷' },
+    { code: '+39', name: 'Italy', flag: '🇮🇹' },
+    { code: '+31', name: 'Netherlands', flag: '🇳🇱' },
+    { code: '+32', name: 'Belgium', flag: '🇧🇪' },
+    { code: '+41', name: 'Switzerland', flag: '🇨🇭' },
+    { code: '+43', name: 'Austria', flag: '🇦🇹' },
+    { code: '+46', name: 'Sweden', flag: '🇸🇪' },
+    { code: '+47', name: 'Norway', flag: '🇳🇴' },
+    { code: '+45', name: 'Denmark', flag: '🇩🇰' },
+    { code: '+358', name: 'Finland', flag: '🇫🇮' },
+    { code: '+351', name: 'Portugal', flag: '🇵🇹' },
+    { code: '+353', name: 'Ireland', flag: '🇮🇪' },
+    { code: '+48', name: 'Poland', flag: '🇵🇱' },
+    { code: '+420', name: 'Czech', flag: '🇨🇿' },
+    { code: '+36', name: 'Hungary', flag: '🇭🇺' },
+    { code: '+7', name: 'Russia', flag: '🇷🇺' },
+    { code: '+81', name: 'Japan', flag: '🇯🇵' },
+    { code: '+82', name: 'South Korea', flag: '🇰🇷' },
+    { code: '+86', name: 'China', flag: '🇨🇳' },
+    { code: '+91', name: 'India', flag: '🇮🇳' },
+    { code: '+61', name: 'Australia', flag: '🇦🇺' },
+    { code: '+64', name: 'New Zealand', flag: '🇳🇿' },
+    { code: '+55', name: 'Brazil', flag: '🇧🇷' },
+    { code: '+54', name: 'Argentina', flag: '🇦🇷' },
+    { code: '+56', name: 'Chile', flag: '🇨🇱' },
+    { code: '+57', name: 'Colombia', flag: '🇨🇴' },
+    { code: '+51', name: 'Peru', flag: '🇵🇪' },
+    { code: '+593', name: 'Ecuador', flag: '🇪🇨' },
+    { code: '+58', name: 'Venezuela', flag: '🇻🇪' },
+    { code: '+506', name: 'Costa Rica', flag: '🇨🇷' },
+    { code: '+507', name: 'Panama', flag: '🇵🇦' },
+    { code: '+502', name: 'Guatemala', flag: '🇬🇹' },
+    { code: '+504', name: 'Honduras', flag: '🇭🇳' },
+    { code: '+505', name: 'Nicaragua', flag: '🇳🇮' },
+    { code: '+503', name: 'El Salvador', flag: '🇸🇻' },
+    { code: '+506', name: 'Costa Rica', flag: '🇨🇷' },
+    { code: '+1-242', name: 'Bahamas', flag: '🇧🇸' },
+    { code: '+1-246', name: 'Barbados', flag: '🇧🇧' },
+    { code: '+1-649', name: 'Turks & Caicos', flag: '🇹🇨' },
+    { code: '+971', name: 'UAE', flag: '🇦🇪' },
+    { code: '+966', name: 'Saudi Arabia', flag: '🇸🇦' },
+    { code: '+972', name: 'Israel', flag: '🇮🇱' },
+    { code: '+27', name: 'South Africa', flag: '🇿🇦' },
+    { code: '+20', name: 'Egypt', flag: '🇪🇬' },
+    { code: '+90', name: 'Turkey', flag: '🇹🇷' },
+  ].sort((a, b) => a.name.localeCompare(b.name))
 
   // Handle mounting for portal
   useEffect(() => {
@@ -82,14 +228,59 @@ export default function PaymentRequestModal({
     }
   }, [isOpen])
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    onSubmit({ name, phone, email })
-    // Reset form
-    setName('')
-    setPhone('')
-    setEmail('')
-    onClose()
+    
+    // Validate required fields
+    if (!name.trim() || !email.trim() || !phoneNumber.trim()) {
+      setSubmitStatus('error')
+      setIsSubmitting(false)
+      return
+    }
+
+    setIsSubmitting(true)
+    setSubmitStatus('idle')
+
+    try {
+      // Build full WhatsApp number: country code + local number
+      const normalizedPhone = phoneNumber.replace(/\s+/g, '').replace(/[^\d]/g, '')
+      if (!normalizedPhone) {
+        setSubmitStatus('error')
+        setIsSubmitting(false)
+        return
+      }
+      
+      const fullPhone = `${countryCode}${normalizedPhone}`
+      
+      // Add timeout to prevent hanging
+      const timeoutPromise = new Promise<boolean>((_, reject) => {
+        setTimeout(() => reject(new Error('Request timeout')), 30000) // 30 second timeout
+      })
+      
+      const submitPromise = onSubmit({ name: name.trim(), phone: fullPhone, email: email.trim() })
+      const success = await Promise.race([submitPromise, timeoutPromise])
+      
+      if (success) {
+        setSubmitStatus('success')
+        // Reset form after success
+        setName('')
+        setCountryCode('+52')
+        setPhoneNumber('')
+        setEmail('')
+        // Close modal after a short delay to show success message
+        setTimeout(() => {
+          setSubmitStatus('idle')
+          onClose()
+        }, 2000)
+      } else {
+        setSubmitStatus('error')
+      }
+    } catch (error) {
+      console.error('Submission error:', error)
+      setSubmitStatus('error')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleBackdropClick = (e: React.MouseEvent) => {
@@ -207,16 +398,30 @@ export default function PaymentRequestModal({
 
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">
-                      Phone Number
+                      WhatsApp Number
                     </label>
-                    <input
-                      type="tel"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      required
-                      className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-turquoise focus:outline-none transition-colors"
-                      placeholder="Enter your phone number"
-                    />
+                    <div className="flex gap-2 w-full">
+                      <CountrySelect
+                        value={countryCode}
+                        onChange={setCountryCode}
+                        countries={countryCodes}
+                      />
+                      <input
+                        type="tel"
+                        value={phoneNumber}
+                        onChange={(e) => {
+                          const value = e.target.value.replace(/[^\d]/g, '')
+                          setPhoneNumber(value)
+                        }}
+                        required
+                        className="flex-1 w-0 px-4 py-2 border-2 border-gray-300 rounded-lg focus:border-turquoise focus:outline-none transition-colors min-w-[120px]"
+                        placeholder="Phone number"
+                        pattern="[0-9]{6,15}"
+                      />
+                    </div>
+                    <p className="text-xs text-gray-500 mt-1">
+                      Enter your WhatsApp number with country code
+                    </p>
                   </div>
 
                   <div>
@@ -233,11 +438,45 @@ export default function PaymentRequestModal({
                     />
                   </div>
 
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                    <p className="text-sm text-blue-800 leading-relaxed">
+                      Your reservation request should be confirmed shortly. You will receive a secure payment link via email where you can confirm your reservation.
+                    </p>
+                  </div>
+
                   <button
                     type="submit"
-                    className="w-full bg-turquoise hover:bg-opacity-90 text-white font-bold py-3 px-6 rounded-lg text-base transition-all transform hover:scale-105 shadow-lg"
+                    disabled={isSubmitting}
+                    className={`w-full font-bold py-3 px-6 rounded-lg text-base transition-all shadow-lg ${
+                      isSubmitting
+                        ? 'bg-gray-400 cursor-not-allowed'
+                        : submitStatus === 'success'
+                        ? 'bg-green-500'
+                        : submitStatus === 'error'
+                        ? 'bg-red-500 hover:bg-red-600'
+                        : 'bg-turquoise hover:bg-opacity-90 transform hover:scale-105'
+                    } text-white`}
                   >
-                    Submit Payment Request
+                    {isSubmitting ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                        </svg>
+                        Submitting...
+                      </span>
+                    ) : submitStatus === 'success' ? (
+                      <span className="flex items-center justify-center gap-2">
+                        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        Request Submitted!
+                      </span>
+                    ) : submitStatus === 'error' ? (
+                      'Error - Try Again'
+                    ) : (
+                      'Submit Reservation Request'
+                    )}
                   </button>
                 </form>
 

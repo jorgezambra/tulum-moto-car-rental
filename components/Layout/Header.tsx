@@ -102,9 +102,9 @@ export default function Header() {
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
-              className="lg:hidden overflow-hidden bg-black/90 backdrop-blur-xl border-t border-white/10 mt-4 rounded-2xl"
+              className="lg:hidden overflow-hidden bg-black/90 backdrop-blur-xl border-t border-white/10 mt-4 rounded-2xl w-fit"
             >
-              <div className="flex flex-col p-4 gap-2">
+              <div className="flex flex-col px-4 py-4 gap-2">
                 {[
                   { href: '/', label: 'nav.home' },
                   { href: '/#rentals', label: 'nav.rentals' },

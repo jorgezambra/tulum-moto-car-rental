@@ -82,11 +82,11 @@ export default function TimePicker({ value, onChange, label }: TimePickerProps) 
               onClick={() => setIsOpen(false)}
             />
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
+              initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
+              exit={{ opacity: 0, y: 10 }}
               transition={{ duration: 0.2 }}
-              className="absolute z-50 mt-1 bg-white rounded-lg shadow-xl border border-gray-200 p-4 w-full min-w-[200px]"
+              className="absolute z-50 bottom-full mb-1 bg-white rounded-lg shadow-xl border border-gray-200 p-4 w-full min-w-[200px]"
             >
               <div className="flex gap-4 items-center justify-center">
                 {/* Hours */}
