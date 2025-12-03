@@ -96,9 +96,9 @@ export default function AboutSection() {
             </h3>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 border border-white/20 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300 w-full group">
+            <div className="bg-white rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] p-6 border border-gray-100 hover:shadow-[0_20px_50px_-10px_rgba(0,0,0,0.2)] hover:-translate-y-1 transition-all duration-300 w-full group">
               <div className="flex flex-col items-center text-center">
-                <div className="mb-3 w-10 h-10 flex items-center justify-center">
+                <div className="mb-4 w-12 h-12 flex items-center justify-center bg-turquoise/10 rounded-xl text-turquoise group-hover:bg-turquoise group-hover:text-white transition-colors duration-300">
                   <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M18.92 6.01C18.72 5.42 18.16 5 17.5 5h-11c-.66 0-1.21.42-1.42 1.01L3 12v8c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h12v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-8l-2.08-5.99zM6.5 16c-.83 0-1.5-.67-1.5-1.5S5.67 13 6.5 13s1.5.67 1.5 1.5S7.33 16 6.5 16zm11 0c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zM5 11l1.5-4.5h11L19 11H5z"/>
                   </svg>
@@ -112,10 +112,10 @@ export default function AboutSection() {
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-turquoise/5 to-white rounded-lg shadow-md p-4 border border-turquoise/10 hover:shadow-lg transition-shadow w-full">
+            <div className="bg-white rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] p-6 border border-gray-100 hover:shadow-[0_20px_50px_-10px_rgba(0,0,0,0.2)] hover:-translate-y-1 transition-all duration-300 w-full group">
               <div className="flex flex-col items-center text-center">
-                <div className="mb-3 w-10 h-10 flex items-center justify-center">
-                  <svg className="w-10 h-10 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="mb-4 w-12 h-12 flex items-center justify-center bg-turquoise/10 rounded-xl text-turquoise group-hover:bg-turquoise group-hover:text-white transition-colors duration-300">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
@@ -128,9 +128,9 @@ export default function AboutSection() {
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-turquoise/5 to-white rounded-lg shadow-md p-4 border border-turquoise/10 hover:shadow-lg transition-shadow w-full">
+            <div className="bg-white rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] p-6 border border-gray-100 hover:shadow-[0_20px_50px_-10px_rgba(0,0,0,0.2)] hover:-translate-y-1 transition-all duration-300 w-full group">
               <div className="flex flex-col items-center text-center">
-                <div className="mb-3 w-10 h-10 flex items-center justify-center">
+                <div className="mb-4 w-12 h-12 flex items-center justify-center bg-turquoise/10 rounded-xl text-turquoise group-hover:bg-turquoise group-hover:text-white transition-colors duration-300">
                   <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
@@ -144,10 +144,10 @@ export default function AboutSection() {
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-turquoise/5 to-white rounded-lg shadow-md p-4 border border-turquoise/10 hover:shadow-lg transition-shadow w-full">
+            <div className="bg-white rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] p-6 border border-gray-100 hover:shadow-[0_20px_50px_-10px_rgba(0,0,0,0.2)] hover:-translate-y-1 transition-all duration-300 w-full group">
               <div className="flex flex-col items-center text-center">
-                <div className="mb-3 w-10 h-10 flex items-center justify-center">
-                  <svg className="w-10 h-10 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="mb-4 w-12 h-12 flex items-center justify-center bg-turquoise/10 rounded-xl text-turquoise group-hover:bg-turquoise group-hover:text-white transition-colors duration-300">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
                   </svg>
                 </div>
@@ -160,10 +160,10 @@ export default function AboutSection() {
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-turquoise/5 to-white rounded-lg shadow-md p-4 border border-turquoise/10 hover:shadow-lg transition-shadow w-full">
+            <div className="bg-white rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] p-6 border border-gray-100 hover:shadow-[0_20px_50px_-10px_rgba(0,0,0,0.2)] hover:-translate-y-1 transition-all duration-300 w-full group">
               <div className="flex flex-col items-center text-center">
-                <div className="mb-3 w-10 h-10 flex items-center justify-center">
-                  <svg className="w-10 h-10 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="mb-4 w-12 h-12 flex items-center justify-center bg-turquoise/10 rounded-xl text-turquoise group-hover:bg-turquoise group-hover:text-white transition-colors duration-300">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
                 </div>
@@ -176,10 +176,10 @@ export default function AboutSection() {
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-turquoise/5 to-white rounded-lg shadow-md p-4 border border-turquoise/10 hover:shadow-lg transition-shadow w-full">
+            <div className="bg-white rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] p-6 border border-gray-100 hover:shadow-[0_20px_50px_-10px_rgba(0,0,0,0.2)] hover:-translate-y-1 transition-all duration-300 w-full group">
               <div className="flex flex-col items-center text-center">
-                <div className="mb-3 w-10 h-10 flex items-center justify-center">
-                  <svg className="w-10 h-10 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div className="mb-4 w-12 h-12 flex items-center justify-center bg-turquoise/10 rounded-xl text-turquoise group-hover:bg-turquoise group-hover:text-white transition-colors duration-300">
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                   </svg>
                 </div>
